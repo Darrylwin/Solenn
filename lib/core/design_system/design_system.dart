@@ -1,3 +1,6 @@
+export 'package:solenn/core/design_system/components/press_feedback.dart';
+export 'package:solenn/core/design_system/components/solenn_icon_button.dart';
+export 'package:solenn/core/design_system/components/solenn_key.dart';
 export 'package:solenn/core/design_system/theme/solenn_context.dart';
 export 'package:solenn/core/design_system/theme/solenn_theme.dart';
 export 'package:solenn/core/design_system/tokens/solenn_colors.dart';

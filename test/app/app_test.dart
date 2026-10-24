@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:solenn/app/app.dart';
 import 'package:solenn/app/home_screen.dart';
 import 'package:solenn/core/design_system/design_system.dart';
+import 'package:solenn/features/calculator/presentation/view/calculator_view.dart';
 
 import '../helpers/test_dependencies.dart';
 
@@ -11,10 +12,11 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('should show the product name when launched', (tester) async {
+  testWidgets('should show the calculator when launched', (tester) async {
     await pumpApp(tester);
 
-    expect(find.text('Solenn'), findsOneWidget);
+    expect(find.byType(CalculatorView), findsOneWidget);
+    expect(find.text('0'), findsWidgets);
   });
 
   testWidgets('should expose the design tokens through the theme', (

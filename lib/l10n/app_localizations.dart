@@ -94,11 +94,101 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
-  /// The product name, used as the application title and as the placeholder of the home screen.
+  /// The product name, used as the application title.
   ///
   /// In en, this message translates to:
   /// **'Solenn'**
   String get appName;
+
+  /// Accessibility label of the button that opens the calculation history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTooltip;
+
+  /// Accessibility label of the button that opens the account screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountTooltip;
+
+  /// Reassuring caption shown at the top of the calculator display.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified · 99.9% accuracy'**
+  String get calculatorCaption;
+
+  /// Spoken announcement of the calculator result.
+  ///
+  /// In en, this message translates to:
+  /// **'Result {value}'**
+  String calculatorResultSemantics(String value);
+
+  /// Visible label of the key that clears the calculator.
+  ///
+  /// In en, this message translates to:
+  /// **'AC'**
+  String get keyClearLabel;
+
+  /// Accessibility label of the clear key.
+  ///
+  /// In en, this message translates to:
+  /// **'All clear'**
+  String get keyClearSemantics;
+
+  /// Accessibility label of the key that deletes the last digit.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get keyBackspaceSemantics;
+
+  /// Accessibility label of the percent key.
+  ///
+  /// In en, this message translates to:
+  /// **'Percent'**
+  String get keyPercentSemantics;
+
+  /// Accessibility label of the key that flips the sign of the current number.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle sign'**
+  String get keyToggleSignSemantics;
+
+  /// Accessibility label of the decimal separator key.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimal separator'**
+  String get keyDecimalSemantics;
+
+  /// Accessibility label of the addition key.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get keyAddSemantics;
+
+  /// Accessibility label of the subtraction key.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtract'**
+  String get keySubtractSemantics;
+
+  /// Accessibility label of the multiplication key.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiply'**
+  String get keyMultiplySemantics;
+
+  /// Accessibility label of the division key.
+  ///
+  /// In en, this message translates to:
+  /// **'Divide'**
+  String get keyDivideSemantics;
+
+  /// Accessibility label of the equals key.
+  ///
+  /// In en, this message translates to:
+  /// **'Equals'**
+  String get keyEqualsSemantics;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,72 @@
   "@@locale": "en",
   "appName": "Solenn",
   "@appName": {
-    "description": "The product name, used as the application title and as the placeholder of the home screen."
+    "description": "The product name, used as the application title."
+  },
+  "historyTooltip": "History",
+  "@historyTooltip": {
+    "description": "Accessibility label of the button that opens the calculation history."
+  },
+  "accountTooltip": "Account",
+  "@accountTooltip": {
+    "description": "Accessibility label of the button that opens the account screen."
+  },
+  "calculatorCaption": "Verified · 99.9% accuracy",
+  "@calculatorCaption": {
+    "description": "Reassuring caption shown at the top of the calculator display."
+  },
+  "calculatorResultSemantics": "Result {value}",
+  "@calculatorResultSemantics": {
+    "description": "Spoken announcement of the calculator result.",
+    "placeholders": {
+      "value": {
+        "type": "String",
+        "example": "24,820"
+      }
+    }
+  },
+  "keyClearLabel": "AC",
+  "@keyClearLabel": {
+    "description": "Visible label of the key that clears the calculator."
+  },
+  "keyClearSemantics": "All clear",
+  "@keyClearSemantics": {
+    "description": "Accessibility label of the clear key."
+  },
+  "keyBackspaceSemantics": "Delete",
+  "@keyBackspaceSemantics": {
+    "description": "Accessibility label of the key that deletes the last digit."
+  },
+  "keyPercentSemantics": "Percent",
+  "@keyPercentSemantics": {
+    "description": "Accessibility label of the percent key."
+  },
+  "keyToggleSignSemantics": "Toggle sign",
+  "@keyToggleSignSemantics": {
+    "description": "Accessibility label of the key that flips the sign of the current number."
+  },
+  "keyDecimalSemantics": "Decimal separator",
+  "@keyDecimalSemantics": {
+    "description": "Accessibility label of the decimal separator key."
+  },
+  "keyAddSemantics": "Add",
+  "@keyAddSemantics": {
+    "description": "Accessibility label of the addition key."
+  },
+  "keySubtractSemantics": "Subtract",
+  "@keySubtractSemantics": {
+    "description": "Accessibility label of the subtraction key."
+  },
+  "keyMultiplySemantics": "Multiply",
+  "@keyMultiplySemantics": {
+    "description": "Accessibility label of the multiplication key."
+  },
+  "keyDivideSemantics": "Divide",
+  "@keyDivideSemantics": {
+    "description": "Accessibility label of the division key."
+  },
+  "keyEqualsSemantics": "Equals",
+  "@keyEqualsSemantics": {
+    "description": "Accessibility label of the equals key."
   }
 }
