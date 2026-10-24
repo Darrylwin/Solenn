@@ -1,0 +1,19 @@
+name: solenn
+description: "Solenn est une calculatrice inspiree d'iOS qui detourne l'experience de calcul traditionnelle avec des resultats volontairement errones et un systeme d'abonnement."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
