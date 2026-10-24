@@ -1,0 +1,33 @@
+name: Setup Flutter
+description: >-
+  Installs the Flutter version pinned in .fvmrc and resolves dependencies
+  against the committed lockfile.
+
+runs:
+  using: composite
+  steps:
+    - name: Read the pinned Flutter version
+      id: pinned
+      shell: bash
+      run: |
+        version="$(jq -r '.flutter' .fvmrc)"
+        if [[ ! "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "::error::.fvmrc must pin an exact version, found '${version}'."
+          exit 1
+        fi
+        echo "version=${version}" >> "${GITHUB_OUTPUT}"
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+      with:
+        flutter-version: ${{ steps.pinned.outputs.version }}
+        channel: stable
+        cache: true
+
+    - name: Print versions
+      shell: bash
+      run: flutter --version
+
+    - name: Resolve dependencies
+      shell: bash
+      run: flutter pub get --enforce-lockfile

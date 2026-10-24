@@ -7,7 +7,7 @@ issue_tracker: https://github.com/Darrylwin/Solenn/issues
 
 environment:
   sdk: ^3.11.5
-  flutter: ^3.41.9
+  flutter: 3.41.9
 
 dependencies:
   decimal: ^3.2.6

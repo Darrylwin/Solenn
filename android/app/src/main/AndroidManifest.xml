@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- No <uses-permission> on purpose: Solenn works fully offline. The debug
-         and profile manifests add INTERNET for tooling only. -->
+    <!-- Intentionally declares no permission: Solenn works fully offline.
+        Debug and profile manifests add network access for tooling only. -->
     <application
         android:label="Solenn"
         android:name="${applicationName}"

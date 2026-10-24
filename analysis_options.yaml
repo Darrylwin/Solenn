@@ -11,6 +11,8 @@ analyzer:
     missing_required_param: error
     missing_return: error
     invalid_use_of_protected_member: error
+    lines_longer_than_80_chars: ignore
+    missing_whitespace_between_adjacent_strings: ignore
 
 linter:
   rules:
