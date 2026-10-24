@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "appName": "Solenn",
+  "@appName": {
+    "description": "The product name, used as the application title and as the placeholder of the home screen."
+  }
+}
