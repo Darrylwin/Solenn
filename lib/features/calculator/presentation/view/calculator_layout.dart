@@ -5,6 +5,10 @@ import 'package:solenn/core/design_system/design_system.dart';
 /// Smallest display card height the layout aims to keep.
 const double calculatorMinDisplayHeight = 140;
 
+/// Tallest display card. On taller screens the extra space goes above the
+/// card, which stays anchored to the keypad.
+const double calculatorMaxDisplayHeight = 220;
+
 /// Vertical space reserved for the banner slot when a banner is shown.
 const double calculatorBannerAllowance = 88;
 
@@ -27,6 +31,7 @@ double calculatorKeyDiameter({
       spacing.xl +
       calculatorMinDisplayHeight +
       spacing.xxl +
+      spacing.md +
       (hasBanner ? calculatorBannerAllowance : 0);
   final byHeight = (height - reserved - 4 * gap) / 5;
   return math.max(spacing.minTouchTarget, math.min(byWidth, byHeight));

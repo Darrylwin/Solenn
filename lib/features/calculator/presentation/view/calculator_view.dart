@@ -87,6 +87,7 @@ class CalculatorView extends StatelessWidget {
                 width: width,
                 height: constraints.maxHeight,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _Header(
                       center: headerCenter,
@@ -98,7 +99,7 @@ class CalculatorView extends StatelessWidget {
                       curve: context.motion.standard,
                       alignment: Alignment.topCenter,
                       child: banner == null
-                          ? const SizedBox(width: double.infinity)
+                          ? const SizedBox.shrink()
                           : Padding(
                               padding: EdgeInsets.only(top: spacing.lg),
                               child: banner,
@@ -106,10 +107,19 @@ class CalculatorView extends StatelessWidget {
                     ),
                     SizedBox(height: spacing.xl),
                     Expanded(
-                      child: CalculatorDisplay(
-                        expression: expression,
-                        result: result,
-                        caption: caption,
+                      // The card hugs the keypad; spare height collects above.
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: calculatorMaxDisplayHeight,
+                          ),
+                          child: CalculatorDisplay(
+                            expression: expression,
+                            result: result,
+                            caption: caption,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: spacing.xxl),
@@ -118,6 +128,7 @@ class CalculatorView extends StatelessWidget {
                       selectedOperator: selectedOperator,
                       onKeyPressed: onKeyPressed,
                     ),
+                    SizedBox(height: spacing.md),
                   ],
                 ),
               ),

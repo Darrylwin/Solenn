@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/features/calculator/domain/input/calculator_key.dart';
+import 'package:solenn/features/calculator/presentation/view/calculator_layout.dart';
 import 'package:solenn/features/calculator/presentation/view/calculator_view.dart';
+import 'package:solenn/features/calculator/presentation/widgets/calculator_display.dart';
 
 import '../../../../helpers/fake_haptics_service.dart';
 import '../../../../helpers/pump_screen.dart';
@@ -171,6 +173,39 @@ void main() {
 
       expect(display.width, 1024);
       expect(keypadLeft, greaterThan(200));
+    });
+
+    testWidgets('should stretch the display across the content column', (
+      tester,
+    ) async {
+      await pumpScreen(tester, _view());
+
+      expect(tester.getSize(find.byType(CalculatorDisplay)).width, 342);
+    });
+
+    testWidgets('should cap the display height on tall screens', (
+      tester,
+    ) async {
+      await pumpScreen(tester, _view(), size: const Size(390, 1000));
+
+      expect(
+        tester.getSize(find.byType(CalculatorDisplay)).height,
+        calculatorMaxDisplayHeight,
+      );
+    });
+
+    testWidgets('should align the result to the end of the display', (
+      tester,
+    ) async {
+      await pumpScreen(tester, _view());
+
+      final card = tester.getRect(find.byType(CalculatorDisplay));
+      final result = tester.getRect(find.text('24,820'));
+
+      expect(
+        card.right - result.right,
+        closeTo(SolennSpacing.standard.xxl, 1),
+      );
     });
   });
 }
