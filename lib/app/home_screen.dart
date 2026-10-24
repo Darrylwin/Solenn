@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:solenn/core/design_system/design_system.dart';
-import 'package:solenn/l10n/l10n.dart';
+import 'package:solenn/features/calculator/presentation/view/calculator_view.dart';
 
 /// Home of the application.
 ///
-/// Placeholder until the calculator feature lands (milestone M2).
+/// Renders the calculator interface with an idle state. Key presses are not
+/// handled yet: the calculator Cubit arrives with the domain,
+/// and the subscription slots are filled with the subscription feature.
 class HomeScreen extends StatelessWidget {
   /// Creates the home screen.
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Text(
-            context.l10n.appName,
-            style: context.type.heroTitle.copyWith(
-              color: context.colors.textPrimary,
-            ),
-          ),
-        ),
-      ),
+    return CalculatorView(
+      expression: '',
+      result: '0',
+      onKeyPressed: (_) {},
     );
   }
 }
