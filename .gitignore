@@ -43,3 +43,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Solenn
+/coverage/
+/build/symbols/
+.fvm/
+/android/key.properties
+*.jks
+*.keystore
