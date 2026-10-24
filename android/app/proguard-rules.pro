@@ -1,0 +1,1 @@
+# Project-specific R8 rules. Flutter and plugin rules are added automatically.
