@@ -10,7 +10,7 @@ runs:
       id: pinned
       shell: bash
       run: |
-        version="$(jq -r '.flutter' .fvmrc)"
+        version="$(jq -r '.flutterSdkVersion // .flutter // empty' .fvmrc)"
         if [[ ! "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo "::error::.fvmrc must pin an exact version, found '${version}'."
           exit 1
