@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:solenn/core/design_system/tokens/solenn_colors.dart';
+import 'package:solenn/core/design_system/tokens/solenn_colors_derived.dart';
 import 'package:solenn/core/design_system/tokens/solenn_motion.dart';
 import 'package:solenn/core/design_system/tokens/solenn_radii.dart';
 import 'package:solenn/core/design_system/tokens/solenn_spacing.dart';
@@ -55,7 +56,7 @@ ThemeData buildSolennTheme() {
       modalBackgroundColor: colors.surfaceElevated,
       modalBarrierColor: colors.scrim,
       showDragHandle: true,
-      dragHandleColor: colors.outline,
+      dragHandleColor: colors.sheetHandle,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(radii.sheet),
