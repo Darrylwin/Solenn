@@ -92,3 +92,34 @@ Rules that refine the table above:
 - **Canonical operands.** Operands are stored as ASCII decimals with `.` and a
   leading `-`, whatever the locale. A dangling separator and the sign of zero
   are dropped when an operand is committed.
+
+## Evaluation
+
+The evaluator computes the *truth*; sabotage is a separate, later step.
+
+- **Exact decimals.** Operands are decimal numbers, so `0.1 + 0.2` is exactly
+  `0.3`. Nothing goes through binary floating point.
+- **15 significant digits.** Every operation is computed exactly, then rounded
+  to 15 significant digits, half away from zero. A quotient without a finite
+  expansion is truncated far beyond that before rounding, which makes the
+  half-up rule exact.
+- **Range.** A result of `1e100` or more, or a nonzero one below `1e-99`, is an
+  overflow. It displays `Error`, like a division by zero.
+- **Precedence.** Multiplication and division before addition and
+  subtraction; equal precedence groups from the left.
+
+### Percent
+
+The parser resolves a percent operand by the operator before it:
+
+| Position | `B%` means | Example |
+|---|---|---|
+| Alone, or first operand | `B / 100` | `50 %` is `0.5` |
+| After `x` or `/` | `B / 100` | `50 x 10 %` is `5` |
+| After `+` or `-` | `A x B / 100` | `50 + 10 %` is `55` |
+
+`A` is the whole expression to the left of the `+` or `-` (the running
+total), so `1 + 2 x 3 + 10 %` is `7 + 0.7`. A percent operand that follows an
+addition and is followed by a multiplication keeps the same rule: in
+`100 + 10 % x 2`, `10 %` is `10`, so the result is `120`. The parser makes
+this explicit in the tree, so the evaluator never needs context.
