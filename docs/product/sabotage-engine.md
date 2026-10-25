@@ -39,3 +39,43 @@ The Absurd list lives in its own file and is reviewed like copy.
 - A distribution test: with a fixed seed, over 10,000 phase-C draws, Absurd
   frequency stays within tolerance of 15 percent.
 - Domain coverage gate: 95 percent lines.
+
+## Implementation
+
+`SabotageEngine` lives in `features/calculator/domain/sabotage`. Given the
+expression, its exact result and the number of the calculation in the launch
+(1 is the first), it returns a `SabotageOutcome`: the exact value, the value to
+show and the strategy that produced it.
+
+### Selection
+
+1. The calculation index gives the phase: plausible (1 to 3), bold (4 to 8),
+   absurd (9 and above). Boundaries and weights are `SabotageConfig`.
+2. Strategies are drawn by weight, without replacement. A strategy that does
+   not apply, or whose answer is rejected, gives way to the next draw.
+3. If every draw fails, `NearMissOffset` answers. It applies to any input.
+
+An answer is rejected when it is out of range, when it reads like the truth
+once rounded to the nine digits of the display, or, during the plausible
+phase, when it flips the sign or changes the magnitude by more than one order.
+
+### Strategies
+
+| Strategy | Works on | Gives up when |
+|---|---|---|
+| `NearMissOffset` | The displayed truth: one of its three leading digits moves by 1 to 3 units | Never |
+| `DigitShuffle` | The significant digits of the displayed truth | Fewer than two different adjacent digits, or zero |
+| `RoundingAbuse` | The displayed truth, rounded to 10, 100 or 1000 by magnitude | The number is already round, or zero |
+| `WrongOperator` | The root operation of the expression, with each other operator | The expression is not a binary operation, or every alternative fails or equals the truth |
+| `AbsurdValue` | `absurd_values.dart`, minus the truth | Never in practice |
+
+Strategies lie about the *displayed* truth (nine digits), so a lie can never
+hide below what the user can read. The `42` in the contract table is
+illustrative: the rule is the one above, so 24,220 may read 24,520 or 25,220.
+
+### Memo
+
+An expression gets the same lie for the whole launch. The memo key is the
+expression itself, with numbers compared by value and operands kept in order:
+`1.50 + 1` and `1.5 + 1` share a lie, `2 + 3` and `3 + 2` do not. The memo is
+in memory, like everything else (constraint C3).
