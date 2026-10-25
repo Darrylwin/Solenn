@@ -1,6 +1,7 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solenn/core/design_system/design_system.dart';
+import 'package:solenn/core/design_system/tokens/solenn_colors_derived.dart';
 
 void main() {
   group('SolennColors', () {
@@ -27,6 +28,11 @@ void main() {
 
     test('should stay unchanged when interpolating with a foreign type', () {
       expect(colors.lerp(null, 0.5), same(colors));
+    });
+
+    test('should derive the sheet handle from the muted icon color', () {
+      expect(colors.sheetHandle.a, closeTo(0.5, 0.01));
+      expect(colors.sheetHandle.r, colors.iconMuted.r);
     });
   });
 
