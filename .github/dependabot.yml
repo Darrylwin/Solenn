@@ -6,17 +6,16 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "06:00"
-      timezone: Etc/UTC
+      time: '06:00'
+      timezone: UTC
+    open-pull-requests-limit: 5
     cooldown:
       default-days: 7
-      semver-major-days: 14
-    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore(deps)
     labels:
       - dependencies
       - pub
-    commit-message:
-      prefix: chore(deps)
     groups:
       pub-minor-patch:
         update-types:
@@ -28,52 +27,48 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "06:00"
-      timezone: Etc/UTC
+      time: '06:00'
+      timezone: UTC
+    open-pull-requests-limit: 5
     cooldown:
       default-days: 7
-      semver-major-days: 14
-    open-pull-requests-limit: 5
+    commit-message:
+      prefix: build(deps)
     labels:
       - dependencies
       - gradle
-    commit-message:
-      prefix: build(deps)
     groups:
       gradle-minor-patch:
         update-types:
           - minor
           - patch
-    # Majors of AGP, Kotlin and Gradle move only with a Flutter upgrade.
     ignore:
-      - dependency-name: com.android.tools.build:gradle
-        update-types: ["version-update:semver-major"]
-      - dependency-name: com.android.application
-        update-types: ["version-update:semver-major"]
-      - dependency-name: org.jetbrains.kotlin.android
-        update-types: ["version-update:semver-major"]
-      - dependency-name: org.jetbrains.kotlin:*
-        update-types: ["version-update:semver-major"]
-      - dependency-name: gradle
-        update-types: ["version-update:semver-major"]
+      # The Android toolchain moves with Flutter upgrades (specification 3.1).
+      - dependency-name: com.android.*
+        update-types: [version-update:semver-major]
+      - dependency-name: org.jetbrains.kotlin*
+        update-types: [version-update:semver-major]
+      - dependency-name: dev.flutter.*
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
-    directory: /
+    directories:
+      - /
+      - /.github/actions/*
     schedule:
       interval: weekly
       day: monday
-      time: "06:00"
-      timezone: Etc/UTC
+      time: '06:00'
+      timezone: UTC
+    open-pull-requests-limit: 5
     cooldown:
       default-days: 7
-      semver-major-days: 14
-    open-pull-requests-limit: 5
+    commit-message:
+      prefix: ci(deps)
     labels:
       - dependencies
       - github-actions
-    commit-message:
-      prefix: ci(deps)
     groups:
       github-actions:
         patterns:
-          - "*"
+          - '*'
