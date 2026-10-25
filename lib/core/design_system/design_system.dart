@@ -1,4 +1,5 @@
 export 'package:solenn/core/design_system/components/press_feedback.dart';
+export 'package:solenn/core/design_system/components/solenn_brand_mark.dart';
 export 'package:solenn/core/design_system/components/solenn_icon_button.dart';
 export 'package:solenn/core/design_system/components/solenn_key.dart';
 export 'package:solenn/core/design_system/components/solenn_text_button.dart';

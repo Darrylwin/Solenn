@@ -57,4 +57,68 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get keyEqualsSemantics => 'Equals';
+
+  @override
+  String get brandInitial => 'S';
+
+  @override
+  String get paywallBrandName => 'solenn';
+
+  @override
+  String get paywallBrandTier => 'plus';
+
+  @override
+  String get paywallCloseSemantics => 'Close';
+
+  @override
+  String get paywallTitleLead => 'Unlock';
+
+  @override
+  String get paywallTitleAccent => 'Precision™';
+
+  @override
+  String get paywallSubtitle =>
+      'Continue calculating with Solenn Plus. Unlimited results, every time.';
+
+  @override
+  String paywallSocialProof(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Trusted by $countString professionals';
+  }
+
+  @override
+  String get paywallDecline => 'I prefer inaccurate results';
+
+  @override
+  String get paywallRestore => 'Restore';
+
+  @override
+  String get paywallTerms => 'Terms';
+
+  @override
+  String get paywallPrivacy => 'Privacy';
+
+  @override
+  String paywallOfferCountdown(String time) {
+    return 'Offer ends in $time';
+  }
+
+  @override
+  String get checkoutProductName => 'Solenn Plus';
+
+  @override
+  String get checkoutDueToday => 'Due today';
+
+  @override
+  String get checkoutConfirm => 'Confirm subscription';
+
+  @override
+  String get checkoutCancel => 'Cancel';
+
+  @override
+  String get checkoutRenewalNotice =>
+      'Renews automatically unless cancelled at least 24 hours before the end of the current period.';
 }

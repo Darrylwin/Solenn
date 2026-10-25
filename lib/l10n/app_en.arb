@@ -69,5 +69,90 @@
   "keyEqualsSemantics": "Equals",
   "@keyEqualsSemantics": {
     "description": "Accessibility label of the equals key."
+  },
+    "brandInitial": "S",
+  "@brandInitial": {
+    "description": "Single letter drawn inside the brand mark placeholder."
+  },
+  "paywallBrandName": "solenn",
+  "@paywallBrandName": {
+    "description": "Lowercase product name in the paywall header lockup."
+  },
+  "paywallBrandTier": "plus",
+  "@paywallBrandTier": {
+    "description": "Subscription tier name shown in the accent color after the product name."
+  },
+  "paywallCloseSemantics": "Close",
+  "@paywallCloseSemantics": {
+    "description": "Accessibility label of the button that closes the paywall."
+  },
+  "paywallTitleLead": "Unlock",
+  "@paywallTitleLead": {
+    "description": "First line of the paywall headline."
+  },
+  "paywallTitleAccent": "Precision™",
+  "@paywallTitleAccent": {
+    "description": "Second line of the paywall headline, drawn in the accent color."
+  },
+  "paywallSubtitle": "Continue calculating with Solenn Plus. Unlimited results, every time.",
+  "@paywallSubtitle": {
+    "description": "Sentence below the paywall headline."
+  },
+  "paywallSocialProof": "Trusted by {count} professionals",
+  "@paywallSocialProof": {
+    "description": "Social proof line next to the star rating.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern",
+        "example": "12,482"
+      }
+    }
+  },
+  "paywallDecline": "I prefer inaccurate results",
+  "@paywallDecline": {
+    "description": "Link that declines the offer on the paywall."
+  },
+  "paywallRestore": "Restore",
+  "@paywallRestore": {
+    "description": "Footer link that restores previous purchases."
+  },
+  "paywallTerms": "Terms",
+  "@paywallTerms": {
+    "description": "Footer link to the terms of service."
+  },
+  "paywallPrivacy": "Privacy",
+  "@paywallPrivacy": {
+    "description": "Footer link to the privacy policy."
+  },
+  "paywallOfferCountdown": "Offer ends in {time}",
+  "@paywallOfferCountdown": {
+    "description": "Countdown shown under the paywall call to action.",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "04:59"
+      }
+    }
+  },
+  "checkoutProductName": "Solenn Plus",
+  "@checkoutProductName": {
+    "description": "Product name at the top of the purchase confirmation sheet."
+  },
+  "checkoutDueToday": "Due today",
+  "@checkoutDueToday": {
+    "description": "Label of the amount charged immediately at checkout."
+  },
+  "checkoutConfirm": "Confirm subscription",
+  "@checkoutConfirm": {
+    "description": "Button that confirms the purchase."
+  },
+  "checkoutCancel": "Cancel",
+  "@checkoutCancel": {
+    "description": "Button that closes the purchase confirmation without subscribing."
+  },
+  "checkoutRenewalNotice": "Renews automatically unless cancelled at least 24 hours before the end of the current period.",
+  "@checkoutRenewalNotice": {
+    "description": "Legal notice at the bottom of the purchase confirmation sheet."
   }
 }
