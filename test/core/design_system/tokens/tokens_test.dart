@@ -1,7 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solenn/core/design_system/design_system.dart';
-import 'package:solenn/core/design_system/tokens/solenn_colors_derived.dart';
 
 void main() {
   group('SolennColors', () {

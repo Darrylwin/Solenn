@@ -1,0 +1,15 @@
+# What Solenn collects
+
+Solenn does not collect, store or transmit any personal data. Calculations are kept in memory while the app is open and are discarded when it is closed.
+
+# Network access
+
+Solenn does not connect to the internet and does not request any permission on your device.
+
+# Payment information
+
+Solenn never asks for, stores or transmits payment card details.
+
+# Changes to this policy
+
+If this policy changes, the updated version ships with the app.

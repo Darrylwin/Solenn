@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solenn/core/design_system/components/solenn_sheet.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/features/subscription/presentation/checkout/checkout_row.dart';
@@ -91,32 +90,35 @@ class _PreviewState extends State<_Preview> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Builder(
-          builder: (context) => Stack(
-            children: [
-              PaywallView(
-                plans: _plans,
-                selectedPlanId: _plan,
-                ctaLabel: 'Start 7-day free trial',
-                finePrint: r'Then $39.99 / year',
-                socialProofCount: 12482,
-                onPlanSelected: (id) => setState(() => _plan = id),
-                onPurchasePressed: () => _openCheckout(context),
-                onClosePressed: () {},
-                onDeclinePressed: () {},
-                onRestorePressed: () {},
-                onTermsPressed: () {},
-                onPrivacyPressed: () {},
-                onSystemBackPressed: () {},
-              ),
-              Positioned(
-                right: 12,
-                bottom: 120,
-                child: Switch(
-                  value: _ios,
-                  onChanged: (value) => setState(() => _ios = value),
+          builder: (context) => Material(
+            type: MaterialType.transparency,
+            child: Stack(
+              children: [
+                PaywallView(
+                  plans: _plans,
+                  selectedPlanId: _plan,
+                  ctaLabel: 'Start 7-day free trial',
+                  finePrint: r'Then $39.99 / year',
+                  socialProofCount: 12482,
+                  onPlanSelected: (id) => setState(() => _plan = id),
+                  onPurchasePressed: () => _openCheckout(context),
+                  onClosePressed: () {},
+                  onDeclinePressed: () {},
+                  onRestorePressed: () {},
+                  onTermsPressed: () {},
+                  onPrivacyPressed: () {},
+                  onSystemBackPressed: () {},
                 ),
-              ),
-            ],
+                Positioned(
+                  right: 12,
+                  bottom: 120,
+                  child: Switch(
+                    value: _ios,
+                    onChanged: (value) => setState(() => _ios = value),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
