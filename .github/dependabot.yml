@@ -1,0 +1,79 @@
+version: 2
+
+updates:
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Etc/UTC
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - pub
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      pub-minor-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: gradle
+    directory: /android
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Etc/UTC
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - gradle
+    commit-message:
+      prefix: build(deps)
+    groups:
+      gradle-minor-patch:
+        update-types:
+          - minor
+          - patch
+    # Majors of AGP, Kotlin and Gradle move only with a Flutter upgrade.
+    ignore:
+      - dependency-name: com.android.tools.build:gradle
+        update-types: ["version-update:semver-major"]
+      - dependency-name: com.android.application
+        update-types: ["version-update:semver-major"]
+      - dependency-name: org.jetbrains.kotlin.android
+        update-types: ["version-update:semver-major"]
+      - dependency-name: org.jetbrains.kotlin:*
+        update-types: ["version-update:semver-major"]
+      - dependency-name: gradle
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Etc/UTC
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: ci(deps)
+    groups:
+      github-actions:
+        patterns:
+          - "*"

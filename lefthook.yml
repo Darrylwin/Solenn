@@ -1,0 +1,20 @@
+# Local hooks are a convenience; CI is authoritative.
+# They call FVM so the pinned Flutter is used. If Flutter is on your PATH and
+# you do not use FVM, drop the "fvm " prefix.
+pre-commit:
+  commands:
+    format:
+      glob: '*.dart'
+      run: fvm dart format --output=none --set-exit-if-changed {staged_files}
+
+commit-msg:
+  commands:
+    conventional-commit:
+      run: fvm dart run tool/check_commit_msg.dart {1}
+
+pre-push:
+  commands:
+    analyze:
+      run: fvm flutter analyze --fatal-infos
+    test:
+      run: fvm flutter test --exclude-tags golden
