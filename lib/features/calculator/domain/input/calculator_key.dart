@@ -1,3 +1,5 @@
+import 'package:solenn/features/calculator/domain/input/arithmetic_operator.dart';
+
 /// A key of the calculator keypad.
 ///
 /// The domain only knows *what* was pressed. How a key looks or is spoken
@@ -72,9 +74,26 @@ enum CalculatorKey {
   /// Whether this key enters a digit.
   bool get isDigit => digit != null;
 
+  /// The operator this key stands for, or `null` for every other key.
+  ArithmeticOperator? get arithmeticOperator => switch (this) {
+    add => ArithmeticOperator.add,
+    subtract => ArithmeticOperator.subtract,
+    multiply => ArithmeticOperator.multiply,
+    divide => ArithmeticOperator.divide,
+    _ => null,
+  };
+
   /// Whether this key is one of the four arithmetic operators.
-  bool get isOperator => switch (this) {
-    add || subtract || multiply || divide => true,
-    _ => false,
+  bool get isOperator => arithmeticOperator != null;
+}
+
+/// The keypad key that enters an [ArithmeticOperator].
+extension ArithmeticOperatorKey on ArithmeticOperator {
+  /// The key of this operator.
+  CalculatorKey get key => switch (this) {
+    ArithmeticOperator.add => CalculatorKey.add,
+    ArithmeticOperator.subtract => CalculatorKey.subtract,
+    ArithmeticOperator.multiply => CalculatorKey.multiply,
+    ArithmeticOperator.divide => CalculatorKey.divide,
   };
 }

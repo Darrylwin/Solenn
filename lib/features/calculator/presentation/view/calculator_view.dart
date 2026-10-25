@@ -112,6 +112,7 @@ class CalculatorView extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(
+                            minWidth: double.infinity,
                             maxHeight: calculatorMaxDisplayHeight,
                           ),
                           child: CalculatorDisplay(
