@@ -67,3 +67,28 @@ limits and error cases.
 In memory only. A `HistoryEntry` stores the expression and the displayed
 result, never the truth. The history sheet lists entries newest first and offers
 Clear. It is cleared by process death, like everything else.
+
+## Input reducer
+
+The input rules above are implemented by `CalculatorInputReducer`, a pure
+state machine. It never computes: pressing `=` returns an evaluation request,
+and the caller reports the outcome back (`complete` or `completeWithError`).
+
+Rules that refine the table above:
+
+- **Percent is a marker.** `%` flags the current operand. It never changes
+  the number being typed; the evaluator resolves its meaning from the
+  surrounding operators. A flagged operand accepts neither digits nor a
+  separator, and the first backspace removes the flag. `%` after an operator,
+  or on an empty input, does nothing. After `=`, it flags the displayed result.
+- **A lone operand is not a calculation.** `5 =` does nothing and does not
+  count as a commit. `5 % =` does, since the percent sign needs evaluating.
+- **A trailing operator reuses its left neighbor.** `2 + 3 × =` evaluates
+  `2 + 3 × 3`.
+- **Errors end the expression.** After an error only a digit, a separator or
+  AC has an effect. Digits and the separator start a new expression.
+- **Backspace** edits the current entry only. It does nothing on a result,
+  after an error, or when no entry is being typed.
+- **Canonical operands.** Operands are stored as ASCII decimals with `.` and a
+  leading `-`, whatever the locale. A dangling separator and the sign of zero
+  are dropped when an operand is committed.
