@@ -123,3 +123,28 @@ total), so `1 + 2 x 3 + 10 %` is `7 + 0.7`. A percent operand that follows an
 addition and is followed by a multiplication keeps the same rule: in
 `100 + 10 % x 2`, `10 %` is `10`, so the result is `120`. The parser makes
 this explicit in the tree, so the evaluator never needs context.
+
+## Display formatting
+
+`NumberFormatter` and `CalculatorDisplayFormatter` write the two lines of the
+display. They are pure: the locale reaches them as `NumberSymbols` (decimal
+separator, group separator, minus sign), read from the device by the
+presentation layer. Digits are always ASCII.
+
+| Situation | Rule | Example |
+|---|---|---|
+| Number being typed | Written as typed, grouped by three | `1,234.50`, `5.`, `-0` |
+| Computed or committed number | Rounded to 9 significant digits, half away from zero, trailing zeros removed | `1 ÷ 3` is `0.333333333` |
+| From 1e-6 up to 1e9 | Positional, grouped by three | `123,456,790` |
+| Outside that range | Scientific, mantissa without trailing zeros | `1.23456789e+9`, `1e-7` |
+| After rounding | The range is checked after rounding | `999999999.5` is `1e+9` |
+| Failed evaluation | The localized error label | `Error` |
+
+The first line shows what was committed, with a space around each operator
+(`5 + 3 ×`); the second line shows the number being typed, or the result after
+`=`. A committed operand is written like a computed number, so a typed `1.50`
+reads `1.5` once an operator follows it.
+
+Known limits: grouping is always by three digits (no `12,34,567`), and a
+locale that skips grouping for four-digit numbers (Spanish, Polish) still
+groups them.

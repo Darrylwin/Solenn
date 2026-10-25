@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:solenn/core/design_system/design_system.dart';
+import 'package:solenn/features/calculator/domain/formatting/operator_glyph.dart';
+import 'package:solenn/features/calculator/domain/input/arithmetic_operator.dart';
 import 'package:solenn/features/calculator/domain/input/calculator_key.dart';
 import 'package:solenn/l10n/l10n.dart';
 
-const String _divide = '÷';
-const String _multiply = '×';
-const String _subtract = '−';
-const String _add = '+';
 const String _equals = '=';
 const String _percent = '%';
 const String _toggleSign = '+/−';
@@ -87,22 +85,22 @@ CalculatorKeySpec calculatorKeySpec(
     ),
     CalculatorKey.add => CalculatorKeySpec(
       variant: SolennKeyVariant.accent,
-      label: _add,
+      label: operatorGlyph(ArithmeticOperator.add),
       semanticLabel: l10n.keyAddSemantics,
     ),
     CalculatorKey.subtract => CalculatorKeySpec(
       variant: SolennKeyVariant.accent,
-      label: _subtract,
+      label: operatorGlyph(ArithmeticOperator.subtract),
       semanticLabel: l10n.keySubtractSemantics,
     ),
     CalculatorKey.multiply => CalculatorKeySpec(
       variant: SolennKeyVariant.accent,
-      label: _multiply,
+      label: operatorGlyph(ArithmeticOperator.multiply),
       semanticLabel: l10n.keyMultiplySemantics,
     ),
     CalculatorKey.divide => CalculatorKeySpec(
       variant: SolennKeyVariant.accent,
-      label: _divide,
+      label: operatorGlyph(ArithmeticOperator.divide),
       semanticLabel: l10n.keyDivideSemantics,
     ),
     CalculatorKey.equals => CalculatorKeySpec(
