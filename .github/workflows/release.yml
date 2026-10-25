@@ -73,7 +73,23 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          set -euo pipefail
+          for name in KEYSTORE_BASE64 STORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing secret for ${name} in the 'release' environment (see the ANDROID_* secrets)."
+              exit 1
+            fi
+          done
           echo "${KEYSTORE_BASE64}" | base64 --decode > android/solenn-release.jks
+          if [ ! -s android/solenn-release.jks ]; then
+            echo "::error::The decoded keystore is empty. Check ANDROID_KEYSTORE_BASE64."
+            exit 1
+          fi
+          if ! keytool -list -keystore android/solenn-release.jks \
+              -storepass:env STORE_PASSWORD -alias "${KEY_ALIAS}" > /dev/null 2>&1; then
+            echo "::error::Cannot read alias '${KEY_ALIAS}' from the keystore. Check the keystore, its password and the alias."
+            exit 1
+          fi
           printf 'storeFile=solenn-release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
             "${STORE_PASSWORD}" "${KEY_ALIAS}" "${KEY_PASSWORD}" > android/key.properties
 
