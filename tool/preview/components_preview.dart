@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:solenn/core/design_system/components/solenn_banner.dart';
-import 'package:solenn/core/design_system/components/solenn_chip.dart';
-import 'package:solenn/core/design_system/components/solenn_plan_card.dart';
-import 'package:solenn/core/design_system/components/solenn_primary_button.dart';
-import 'package:solenn/core/design_system/components/solenn_sheet.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 
 void main() => runApp(const _Preview());

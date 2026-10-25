@@ -297,6 +297,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Renews automatically unless cancelled at least 24 hours before the end of the current period.'**
   String get checkoutRenewalNotice;
+
+  /// Accessibility label of the button that goes back to the previous screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get backSemantics;
+
+  /// Title of the calculation history sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTitle;
+
+  /// Button that erases the calculation history.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get historyClear;
+
+  /// Message shown when the calculation history is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No calculations yet'**
+  String get historyEmpty;
+
+  /// Spoken description of one history entry.
+  ///
+  /// In en, this message translates to:
+  /// **'{expression} equals {result}'**
+  String historyEntrySemantics(String expression, String result);
+
+  /// Title of the account screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountTitle;
+
+  /// Caption above the subscription actions of the account screen.
+  ///
+  /// In en, this message translates to:
+  /// **'SUBSCRIPTION'**
+  String get accountSectionSubscription;
+
+  /// Caption above the legal links of the account screen.
+  ///
+  /// In en, this message translates to:
+  /// **'LEGAL'**
+  String get accountSectionLegal;
+
+  /// Caption above the application information of the account screen.
+  ///
+  /// In en, this message translates to:
+  /// **'ABOUT'**
+  String get accountSectionAbout;
+
+  /// Row that restores previous purchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get accountRestorePurchases;
+
+  /// Row that opens the terms of service.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get accountTerms;
+
+  /// Row that opens the privacy policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get accountPrivacy;
+
+  /// Row that opens the open-source licenses page.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licenses'**
+  String get accountLicenses;
+
+  /// Label of the row that shows the application version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get accountVersion;
+
+  /// Title of the terms of service page.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get legalTermsTitle;
+
+  /// Title of the privacy policy page.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get legalPrivacyTitle;
 }
 
 class _AppLocalizationsDelegate

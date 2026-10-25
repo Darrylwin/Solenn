@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:solenn/core/design_system/components/solenn_pressable.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 
 import '../../../helpers/pump_screen.dart';

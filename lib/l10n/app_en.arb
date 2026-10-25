@@ -154,5 +154,79 @@
   "checkoutRenewalNotice": "Renews automatically unless cancelled at least 24 hours before the end of the current period.",
   "@checkoutRenewalNotice": {
     "description": "Legal notice at the bottom of the purchase confirmation sheet."
+  },
+    "backSemantics": "Back",
+  "@backSemantics": {
+    "description": "Accessibility label of the button that goes back to the previous screen."
+  },
+  "historyTitle": "History",
+  "@historyTitle": {
+    "description": "Title of the calculation history sheet."
+  },
+  "historyClear": "Clear",
+  "@historyClear": {
+    "description": "Button that erases the calculation history."
+  },
+  "historyEmpty": "No calculations yet",
+  "@historyEmpty": {
+    "description": "Message shown when the calculation history is empty."
+  },
+  "historyEntrySemantics": "{expression} equals {result}",
+  "@historyEntrySemantics": {
+    "description": "Spoken description of one history entry.",
+    "placeholders": {
+      "expression": {
+        "type": "String",
+        "example": "36 × 4"
+      },
+      "result": {
+        "type": "String",
+        "example": "414"
+      }
+    }
+  },
+  "accountTitle": "Account",
+  "@accountTitle": {
+    "description": "Title of the account screen."
+  },
+  "accountSectionSubscription": "SUBSCRIPTION",
+  "@accountSectionSubscription": {
+    "description": "Caption above the subscription actions of the account screen."
+  },
+  "accountSectionLegal": "LEGAL",
+  "@accountSectionLegal": {
+    "description": "Caption above the legal links of the account screen."
+  },
+  "accountSectionAbout": "ABOUT",
+  "@accountSectionAbout": {
+    "description": "Caption above the application information of the account screen."
+  },
+  "accountRestorePurchases": "Restore purchases",
+  "@accountRestorePurchases": {
+    "description": "Row that restores previous purchases."
+  },
+  "accountTerms": "Terms of Service",
+  "@accountTerms": {
+    "description": "Row that opens the terms of service."
+  },
+  "accountPrivacy": "Privacy Policy",
+  "@accountPrivacy": {
+    "description": "Row that opens the privacy policy."
+  },
+  "accountLicenses": "Open-source licenses",
+  "@accountLicenses": {
+    "description": "Row that opens the open-source licenses page."
+  },
+  "accountVersion": "Version",
+  "@accountVersion": {
+    "description": "Label of the row that shows the application version."
+  },
+  "legalTermsTitle": "Terms of Service",
+  "@legalTermsTitle": {
+    "description": "Title of the terms of service page."
+  },
+  "legalPrivacyTitle": "Privacy Policy",
+  "@legalPrivacyTitle": {
+    "description": "Title of the privacy policy page."
   }
 }

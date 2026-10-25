@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solenn/core/design_system/components/solenn_plan_card.dart';
-import 'package:solenn/core/design_system/components/solenn_pressable.dart';
-import 'package:solenn/core/design_system/components/solenn_primary_button.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/features/subscription/presentation/paywall/paywall_fine_print.dart';

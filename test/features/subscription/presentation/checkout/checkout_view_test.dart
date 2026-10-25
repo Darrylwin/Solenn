@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:solenn/core/design_system/components/solenn_primary_button.dart';
-import 'package:solenn/core/design_system/components/solenn_sheet.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/features/subscription/presentation/checkout/checkout_row.dart';
 import 'package:solenn/features/subscription/presentation/checkout/checkout_view.dart';

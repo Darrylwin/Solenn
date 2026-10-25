@@ -36,6 +36,7 @@ flutter:
   generate: true
   assets:
     - assets/fonts/manrope/OFL.txt
+    - assets/legal/
   fonts:
     - family: Manrope
       fonts:

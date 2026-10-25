@@ -121,4 +121,54 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get checkoutRenewalNotice =>
       'Renews automatically unless cancelled at least 24 hours before the end of the current period.';
+
+  @override
+  String get backSemantics => 'Back';
+
+  @override
+  String get historyTitle => 'History';
+
+  @override
+  String get historyClear => 'Clear';
+
+  @override
+  String get historyEmpty => 'No calculations yet';
+
+  @override
+  String historyEntrySemantics(String expression, String result) {
+    return '$expression equals $result';
+  }
+
+  @override
+  String get accountTitle => 'Account';
+
+  @override
+  String get accountSectionSubscription => 'SUBSCRIPTION';
+
+  @override
+  String get accountSectionLegal => 'LEGAL';
+
+  @override
+  String get accountSectionAbout => 'ABOUT';
+
+  @override
+  String get accountRestorePurchases => 'Restore purchases';
+
+  @override
+  String get accountTerms => 'Terms of Service';
+
+  @override
+  String get accountPrivacy => 'Privacy Policy';
+
+  @override
+  String get accountLicenses => 'Open-source licenses';
+
+  @override
+  String get accountVersion => 'Version';
+
+  @override
+  String get legalTermsTitle => 'Terms of Service';
+
+  @override
+  String get legalPrivacyTitle => 'Privacy Policy';
 }
