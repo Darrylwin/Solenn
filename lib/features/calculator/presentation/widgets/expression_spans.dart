@@ -1,6 +1,8 @@
 import 'package:flutter/painting.dart';
+import 'package:solenn/features/calculator/domain/formatting/operator_glyph.dart';
+import 'package:solenn/features/calculator/domain/input/arithmetic_operator.dart';
 
-const String _operators = '+−×÷';
+final String _operators = ArithmeticOperator.values.map(operatorGlyph).join();
 
 /// Splits [text] into spans so that arithmetic operators use
 /// [operatorStyle] while everything else keeps the surrounding style.
