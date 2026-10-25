@@ -189,6 +189,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Equals'**
   String get keyEqualsSemantics;
+
+  /// Single letter drawn inside the brand mark placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get brandInitial;
+
+  /// Lowercase product name in the paywall header lockup.
+  ///
+  /// In en, this message translates to:
+  /// **'solenn'**
+  String get paywallBrandName;
+
+  /// Subscription tier name shown in the accent color after the product name.
+  ///
+  /// In en, this message translates to:
+  /// **'plus'**
+  String get paywallBrandTier;
+
+  /// Accessibility label of the button that closes the paywall.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get paywallCloseSemantics;
+
+  /// First line of the paywall headline.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get paywallTitleLead;
+
+  /// Second line of the paywall headline, drawn in the accent color.
+  ///
+  /// In en, this message translates to:
+  /// **'Precision™'**
+  String get paywallTitleAccent;
+
+  /// Sentence below the paywall headline.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue calculating with Solenn Plus. Unlimited results, every time.'**
+  String get paywallSubtitle;
+
+  /// Social proof line next to the star rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted by {count} professionals'**
+  String paywallSocialProof(int count);
+
+  /// Link that declines the offer on the paywall.
+  ///
+  /// In en, this message translates to:
+  /// **'I prefer inaccurate results'**
+  String get paywallDecline;
+
+  /// Footer link that restores previous purchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get paywallRestore;
+
+  /// Footer link to the terms of service.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get paywallTerms;
+
+  /// Footer link to the privacy policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get paywallPrivacy;
+
+  /// Countdown shown under the paywall call to action.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer ends in {time}'**
+  String paywallOfferCountdown(String time);
+
+  /// Product name at the top of the purchase confirmation sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Solenn Plus'**
+  String get checkoutProductName;
+
+  /// Label of the amount charged immediately at checkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get checkoutDueToday;
+
+  /// Button that confirms the purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm subscription'**
+  String get checkoutConfirm;
+
+  /// Button that closes the purchase confirmation without subscribing.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get checkoutCancel;
+
+  /// Legal notice at the bottom of the purchase confirmation sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews automatically unless cancelled at least 24 hours before the end of the current period.'**
+  String get checkoutRenewalNotice;
 }
 
 class _AppLocalizationsDelegate
