@@ -84,8 +84,66 @@ void main() {
 
       final markdown = renderMarkdown(report, unloaded: ['lib/app/b.dart']);
 
-      expect(markdown, contains('FAIL: Overall'));
-      expect(markdown, contains('- lib/app/b.dart'));
+      expect(markdown, contains('### Line coverage: failed'));
+      expect(markdown, contains('| Overall | 10.0% | 85% | FAIL |'));
+      expect(markdown, contains('- Overall coverage 10.0% is below 85%.'));
+      expect(markdown, contains('1 files never loaded by a test'));
+      expect(markdown, contains('- `lib/app/b.dart`'));
+    });
+
+    test('should omit failures and unloaded files when there are none', () {
+      final report = evaluate(parseLcov(_record('lib/app/a.dart', 10, 10)));
+
+      final markdown = renderMarkdown(report);
+
+      expect(markdown, contains('### Line coverage: passed'));
+      expect(markdown, isNot(contains('Failures')));
+      expect(markdown, isNot(contains('<details>')));
+    });
+
+    test('should mark the domain as not applicable without domain file', () {
+      final report = evaluate(parseLcov(_record('lib/app/a.dart', 10, 10)));
+
+      expect(
+        renderMarkdown(report),
+        contains('| Domain | n/a | 95% | N/A |'),
+      );
+    });
+  });
+
+  group('renderText', () {
+    test('should align the table and list failures', () {
+      final report = evaluate(parseLcov(_record('lib/app/a.dart', 100, 10)));
+
+      final text = renderText(report);
+
+      expect(text, contains('Line coverage: FAILED'));
+      expect(text, contains('Overall'));
+      expect(text, contains('10.0%'));
+      expect(text, contains('FAIL'));
+      expect(text, contains('  - Overall coverage 10.0% is below 85%.'));
+    });
+
+    test('should group unloaded files by directory', () {
+      final report = evaluate(parseLcov(_record('lib/app/a.dart', 10, 10)));
+
+      final text = renderText(
+        report,
+        unloaded: ['lib/app/b.dart', 'lib/app/c.dart', 'lib/core/d.dart'],
+      );
+
+      expect(text, contains('Files never loaded by a test (3)'));
+      expect(text, contains('  lib/app/\n    b.dart\n    c.dart\n'));
+      expect(text, contains('  lib/core/\n    d.dart\n'));
+    });
+
+    test('should report a pass without failures section', () {
+      final report = evaluate(parseLcov(_record('lib/app/a.dart', 10, 10)));
+
+      final text = renderText(report);
+
+      expect(text, contains('Line coverage: PASSED'));
+      expect(text, isNot(contains('Failures')));
     });
   });
 }

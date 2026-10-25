@@ -16,12 +16,16 @@ void main(List<String> arguments) {
 
   final files = parseLcov(reportFile.readAsStringSync());
   final report = evaluate(files);
-  final markdown = renderMarkdown(report, unloaded: _unloadedFiles(files));
+  final unloaded = _unloadedFiles(files);
 
-  stdout.writeln(markdown);
+  stdout.writeln(renderText(report, unloaded: unloaded));
+
   final summaryPath = Platform.environment['GITHUB_STEP_SUMMARY'];
   if (summaryPath != null) {
-    File(summaryPath).writeAsStringSync('$markdown\n', mode: FileMode.append);
+    File(summaryPath).writeAsStringSync(
+      '${renderMarkdown(report, unloaded: unloaded)}\n',
+      mode: FileMode.append,
+    );
   }
   if (!report.passed) exit(1);
 }

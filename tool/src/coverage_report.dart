@@ -134,39 +134,141 @@ CoverageReport evaluate(Iterable<FileCoverage> files) {
   return CoverageReport(overall: overall, domain: domain, failures: failures);
 }
 
-/// Renders [report] as Markdown for the console and the job summary.
-String renderMarkdown(
+typedef _Row = ({String scope, String coverage, String minimum, bool? passed});
+
+List<_Row> _rows(CoverageReport report) {
+  final domain = report.domain;
+  return [
+    (
+      scope: 'Overall',
+      coverage: '${_format(report.overall.percent)}%',
+      minimum: '${minimumOverallCoverage.toStringAsFixed(0)}%',
+      passed: report.overall.percent >= minimumOverallCoverage,
+    ),
+    (
+      scope: 'Domain',
+      coverage: domain == null ? 'n/a' : '${_format(domain.percent)}%',
+      minimum: '${minimumDomainCoverage.toStringAsFixed(0)}%',
+      passed: domain == null ? null : domain.percent >= minimumDomainCoverage,
+    ),
+  ];
+}
+
+String _status(bool? passed) => switch (passed) {
+  null => 'N/A',
+  true => 'PASS',
+  false => 'FAIL',
+};
+
+/// Groups [paths] by directory, keeping the input order.
+Map<String, List<String>> _byDirectory(List<String> paths) {
+  final groups = <String, List<String>>{};
+  for (final path in paths) {
+    final slash = path.lastIndexOf('/');
+    groups
+        .putIfAbsent(path.substring(0, slash + 1), () => [])
+        .add(path.substring(slash + 1));
+  }
+  return groups;
+}
+
+/// Renders [report] as aligned plain text for the console.
+String renderText(
   CoverageReport report, {
   List<String> unloaded = const [],
 }) {
-  final domain = report.domain;
-  final buffer = StringBuffer()
-    ..writeln('### Line coverage')
-    ..writeln()
-    ..writeln('| Scope | Coverage | Minimum |')
-    ..writeln('|---|---|---|')
-    ..writeln(
-      '| Overall | ${_format(report.overall.percent)}% '
-      '| ${minimumOverallCoverage.toStringAsFixed(0)}% |',
-    )
-    ..writeln(
-      '| Domain | '
-      '${domain == null ? 'no domain files yet' : '${_format(domain.percent)}%'}'
-      ' | ${minimumDomainCoverage.toStringAsFixed(0)}% |',
-    );
+  final header = ['Scope', 'Coverage', 'Minimum', 'Status'];
+  final body = [
+    for (final row in _rows(report))
+      [row.scope, row.coverage, row.minimum, _status(row.passed)],
+  ];
+  final widths = [
+    for (var i = 0; i < header.length; i++)
+      [header, ...body].fold(0, (w, r) => r[i].length > w ? r[i].length : w),
+  ];
 
-  for (final failure in report.failures) {
+  String line(List<String> cells) => [
+    cells[0].padRight(widths[0]),
+    cells[1].padLeft(widths[1]),
+    cells[2].padLeft(widths[2]),
+    cells[3].padRight(widths[3]),
+  ].join('   ');
+
+  final rule = widths.map((width) => '-' * width).join('   ');
+
+  final buffer = StringBuffer()
+    ..writeln('Line coverage: ${report.passed ? 'PASSED' : 'FAILED'}')
+    ..writeln()
+    ..writeln(line(header))
+    ..writeln(rule);
+  body.map(line).forEach(buffer.writeln);
+
+  if (report.failures.isNotEmpty) {
     buffer
       ..writeln()
-      ..writeln('FAIL: $failure');
+      ..writeln('Failures');
+    for (final failure in report.failures) {
+      buffer.writeln('  - $failure');
+    }
   }
   if (unloaded.isNotEmpty) {
     buffer
       ..writeln()
-      ..writeln('Files never loaded by a test (absent from the report):');
-    for (final path in unloaded) {
-      buffer.writeln('- $path');
+      ..writeln(
+        'Files never loaded by a test (${unloaded.length}), '
+        'absent from the report',
+      );
+    _byDirectory(unloaded).forEach((directory, names) {
+      buffer.writeln('  $directory');
+      for (final name in names) {
+        buffer.writeln('    $name');
+      }
+    });
+  }
+  return buffer.toString();
+}
+
+/// Renders [report] as Markdown for the GitHub job summary.
+String renderMarkdown(
+  CoverageReport report, {
+  List<String> unloaded = const [],
+}) {
+  final buffer = StringBuffer()
+    ..writeln('### Line coverage: ${report.passed ? 'passed' : 'failed'}')
+    ..writeln()
+    ..writeln('| Scope | Coverage | Minimum | Status |')
+    ..writeln('|:--|--:|--:|:-:|');
+  for (final row in _rows(report)) {
+    buffer.writeln(
+      '| ${row.scope} | ${row.coverage} | ${row.minimum} '
+      '| ${_status(row.passed)} |',
+    );
+  }
+
+  if (report.failures.isNotEmpty) {
+    buffer
+      ..writeln()
+      ..writeln('**Failures**')
+      ..writeln();
+    for (final failure in report.failures) {
+      buffer.writeln('- $failure');
     }
+  }
+  if (unloaded.isNotEmpty) {
+    buffer
+      ..writeln()
+      ..writeln('<details>')
+      ..writeln(
+        '<summary>${unloaded.length} files never loaded by a test '
+        '(absent from the report)</summary>',
+      )
+      ..writeln();
+    for (final path in unloaded) {
+      buffer.writeln('- `$path`');
+    }
+    buffer
+      ..writeln()
+      ..writeln('</details>');
   }
   return buffer.toString();
 }
