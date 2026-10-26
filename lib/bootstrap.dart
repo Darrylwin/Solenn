@@ -13,6 +13,7 @@ import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_bloc_observer.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
 
 /// Composition root: installs global hooks, builds [AppDependencies] and
 /// starts the application.
@@ -50,7 +51,9 @@ Future<void> bootstrap() async {
       version: packageInfo.version,
       buildNumber: packageInfo.buildNumber,
     ),
-    random: Random(DateTime.now().microsecondsSinceEpoch),
+    sabotageEngine: SabotageEngine(
+      random: Random(DateTime.now().microsecondsSinceEpoch),
+    ),
   );
 
   runApp(SolennApp(dependencies: dependencies));

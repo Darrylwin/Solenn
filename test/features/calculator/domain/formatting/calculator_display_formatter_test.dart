@@ -93,4 +93,17 @@ void main() {
       const FormattedDisplay(expression: 'a', result: 'b'),
     );
   });
+
+  test('should format an expression from its tokens', () {
+    final state = CalculationSession().press('24000+220=').state;
+
+    expect(_formatter.formatExpression(state.tokens), '24,000 + 220');
+    expect(_formatter.formatExpression(const []), '');
+  });
+
+  test('should format a computed number from its canonical text', () {
+    expect(_formatter.formatNumber('24220'), '24,220');
+    expect(_formatter.formatNumber('0.333333333333333'), '0.333333333');
+    expect(_formatter.formatNumber('1234567890'), '1.23456789e+9');
+  });
 }

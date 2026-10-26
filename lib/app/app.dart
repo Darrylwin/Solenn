@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solenn/app/app_dependencies.dart';
@@ -9,6 +7,7 @@ import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
 import 'package:solenn/l10n/l10n.dart';
 
 /// Root widget: installs the theme, localizations, routing and services.
@@ -26,7 +25,9 @@ class SolennApp extends StatelessWidget {
         RepositoryProvider<AppLogger>.value(value: dependencies.logger),
         RepositoryProvider<HapticsService>.value(value: dependencies.haptics),
         RepositoryProvider<AppInfo>.value(value: dependencies.appInfo),
-        RepositoryProvider<Random>.value(value: dependencies.random),
+        RepositoryProvider<SabotageEngine>.value(
+          value: dependencies.sabotageEngine,
+        ),
       ],
       child: MaterialApp(
         onGenerateTitle: (context) => context.l10n.appName,

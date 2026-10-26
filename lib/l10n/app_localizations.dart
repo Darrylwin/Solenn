@@ -393,6 +393,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get legalPrivacyTitle;
+
+  /// Text shown on the calculator display when an operation cannot be computed, such as a division by zero.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get calculatorError;
 }
 
 class _AppLocalizationsDelegate

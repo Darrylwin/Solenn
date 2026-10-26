@@ -228,5 +228,9 @@
   "legalPrivacyTitle": "Privacy Policy",
   "@legalPrivacyTitle": {
     "description": "Title of the privacy policy page."
+  },
+  "calculatorError": "Error",
+  "@calculatorError": {
+    "description": "Text shown on the calculator display when an operation cannot be computed, such as a division by zero."
   }
 }
