@@ -4,6 +4,7 @@ import 'package:solenn/app/app_dependencies.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
 
 import 'fake_haptics_service.dart';
 
@@ -13,6 +14,6 @@ AppDependencies buildTestDependencies({HapticsService? haptics}) {
     logger: const AppLogger(),
     haptics: haptics ?? FakeHapticsService(),
     appInfo: const AppInfo(version: '0.0.0', buildNumber: '0'),
-    random: Random(42),
+    sabotageEngine: SabotageEngine(random: Random(42)),
   );
 }

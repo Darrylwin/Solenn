@@ -148,3 +148,21 @@ reads `1.5` once an operator follows it.
 Known limits: grouping is always by three digits (no `12,34,567`), and a
 locale that skips grouping for four-digit numbers (Spanish, Polish) still
 groups them.
+
+## Session
+
+A launch has one `CalculatorCubit` and one `SabotageEngine`. Nothing outlives
+the process (constraint C3).
+
+- **Calculation counter.** `committedCount` counts successful calculations. It
+  numbers the next lie (1 for the first) and tells the rest of the app that a
+  calculation just completed. Errors do not use up a number, and clearing the
+  history does not reset it: the lies keep escalating.
+- **History.** Newest first, capped at 100 entries. It stores what was
+  displayed, never the truth. AC keeps it; clearing it is explicit.
+- **Formatting.** The state holds domain data only. The view formats it with
+  the symbols of the device locale, so a locale change needs no state change.
+- **Caption.** "Verified · 99.9% accuracy" shows while a result is displayed,
+  and disappears as soon as the user types again or hits an error.
+- **Wiring.** `AppDependencies` carries the launch's `SabotageEngine`;
+  `SolennApp` provides it, and `CalculatorPage` builds its cubit with it.

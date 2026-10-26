@@ -10,8 +10,10 @@ import 'package:solenn/l10n/l10n.dart';
 /// The 4 x 5 calculator keypad.
 ///
 /// Keys are square cells of [keyDiameter]; the horizontal gap absorbs any
-/// remaining width. Haptic feedback fires on pointer down.
-class CalculatorKeypad extends StatelessWidget {
+/// remaining width. Haptic feedback fires on pointer down. The keys are built
+/// once and reused until the diameter, the pending operator, the callback or
+/// the theme or locale change, so typing never rebuilds them.
+class CalculatorKeypad extends StatefulWidget {
   /// Creates the keypad.
   const CalculatorKeypad({
     required this.keyDiameter,
@@ -64,13 +66,68 @@ class CalculatorKeypad extends StatelessWidget {
   ];
 
   @override
+  State<CalculatorKeypad> createState() => _CalculatorKeypadState();
+}
+
+class _CalculatorKeypadState extends State<CalculatorKeypad> {
+  // The same instance is returned until an input changes, so the framework
+  // skips the whole subtree.
+  _KeypadGrid? _grid;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _grid = null;
+  }
+
+  @override
+  void didUpdateWidget(CalculatorKeypad oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final changed =
+        oldWidget.keyDiameter != widget.keyDiameter ||
+        oldWidget.selectedOperator != widget.selectedOperator ||
+        oldWidget.onKeyPressed != widget.onKeyPressed;
+    if (changed) _grid = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final gap = context.spacing.keyGap;
-    final haptics = context.read<HapticsService>();
-    final l10n = context.l10n;
-    final decimalSeparator = decimalSeparatorFor(
-      Localizations.localeOf(context).toString(),
+    return _grid ??= _KeypadGrid(
+      keyDiameter: widget.keyDiameter,
+      gap: context.spacing.keyGap,
+      selectedOperator: widget.selectedOperator,
+      onKeyPressed: widget.onKeyPressed,
+      haptics: context.read<HapticsService>(),
+      l10n: context.l10n,
+      decimalSeparator: decimalSeparatorFor(
+        Localizations.localeOf(context).toString(),
+      ),
     );
+  }
+}
+
+class _KeypadGrid extends StatelessWidget {
+  const _KeypadGrid({
+    required this.keyDiameter,
+    required this.gap,
+    required this.selectedOperator,
+    required this.onKeyPressed,
+    required this.haptics,
+    required this.l10n,
+    required this.decimalSeparator,
+  });
+
+  final double keyDiameter;
+  final double gap;
+  final CalculatorKey? selectedOperator;
+  final ValueChanged<CalculatorKey> onKeyPressed;
+  final HapticsService haptics;
+  final AppLocalizations l10n;
+  final String decimalSeparator;
+
+  @override
+  Widget build(BuildContext context) {
+    const rows = CalculatorKeypad.rows;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -83,7 +140,14 @@ class CalculatorKeypad extends StatelessWidget {
               for (final key in rows[index])
                 SizedBox.square(
                   dimension: keyDiameter,
-                  child: _buildKey(key, l10n, decimalSeparator, haptics),
+                  child: _KeypadKey(
+                    calculatorKey: key,
+                    selected: key == selectedOperator,
+                    l10n: l10n,
+                    decimalSeparator: decimalSeparator,
+                    haptics: haptics,
+                    onKeyPressed: onKeyPressed,
+                  ),
                 ),
             ],
           ),
@@ -91,33 +155,48 @@ class CalculatorKeypad extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildKey(
-    CalculatorKey key,
-    AppLocalizations l10n,
-    String decimalSeparator,
-    HapticsService haptics,
-  ) {
+class _KeypadKey extends StatelessWidget {
+  const _KeypadKey({
+    required this.calculatorKey,
+    required this.selected,
+    required this.l10n,
+    required this.decimalSeparator,
+    required this.haptics,
+    required this.onKeyPressed,
+  });
+
+  final CalculatorKey calculatorKey;
+  final bool selected;
+  final AppLocalizations l10n;
+  final String decimalSeparator;
+  final HapticsService haptics;
+  final ValueChanged<CalculatorKey> onKeyPressed;
+
+  @override
+  Widget build(BuildContext context) {
     final spec = calculatorKeySpec(
-      key,
+      calculatorKey,
       l10n: l10n,
       decimalSeparator: decimalSeparator,
     );
+
     return SolennKey(
       variant: spec.variant,
       label: spec.label,
       icon: spec.icon,
       semanticLabel: spec.semanticLabel,
-      selected: key == selectedOperator,
-      onPressStart: () => _feedback(haptics, key),
-      onPressed: () => onKeyPressed(key),
+      selected: selected,
+      onPressStart: _feedback,
+      onPressed: () => onKeyPressed(calculatorKey),
     );
   }
 
-  void _feedback(HapticsService haptics, CalculatorKey key) {
-    if (key == CalculatorKey.equals) {
+  void _feedback() {
+    if (calculatorKey == CalculatorKey.equals) {
       haptics.medium();
-    } else if (key.isOperator) {
+    } else if (calculatorKey.isOperator) {
       haptics.light();
     } else {
       haptics.selection();

@@ -171,4 +171,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalPrivacyTitle => 'Privacy Policy';
+
+  @override
+  String get calculatorError => 'Error';
 }

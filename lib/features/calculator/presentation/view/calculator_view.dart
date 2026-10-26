@@ -115,10 +115,12 @@ class CalculatorView extends StatelessWidget {
                             minWidth: double.infinity,
                             maxHeight: calculatorMaxDisplayHeight,
                           ),
-                          child: CalculatorDisplay(
-                            expression: expression,
-                            result: result,
-                            caption: caption,
+                          child: RepaintBoundary(
+                            child: CalculatorDisplay(
+                              expression: expression,
+                              result: result,
+                              caption: caption,
+                            ),
                           ),
                         ),
                       ),

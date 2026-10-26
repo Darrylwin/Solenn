@@ -40,10 +40,17 @@ class CalculatorDisplayFormatter {
     required String errorLabel,
   }) {
     return FormattedDisplay(
-      expression: state.tokens.map(_formatToken).join(' '),
+      expression: formatExpression(state.tokens),
       result: _formatResult(state, errorLabel),
     );
   }
+
+  /// Formats [tokens] as the first line of the display.
+  String formatExpression(List<InputToken> tokens) =>
+      tokens.map(_formatToken).join(' ');
+
+  /// Formats a computed number, given as canonical text.
+  String formatNumber(String canonical) => _numbers.formatValue(canonical);
 
   String _formatToken(InputToken token) => switch (token) {
     NumberToken(:final text, :final isPercent) => _numbers.formatValue(

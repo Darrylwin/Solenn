@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
 
 /// Everything the application needs from the outside world, assembled once
 /// by `bootstrap` and injected by constructor.
@@ -16,7 +15,7 @@ class AppDependencies {
     required this.logger,
     required this.haptics,
     required this.appInfo,
-    required this.random,
+    required this.sabotageEngine,
   });
 
   /// Logging facade.
@@ -28,6 +27,9 @@ class AppDependencies {
   /// Version information of the running build.
   final AppInfo appInfo;
 
-  /// Randomness source, seeded once per launch.
-  final Random random;
+  /// The engine that decides every lie of the launch.
+  ///
+  /// It is stateful (it remembers each expression's lie), so exactly one
+  /// instance exists per launch, seeded once.
+  final SabotageEngine sabotageEngine;
 }
