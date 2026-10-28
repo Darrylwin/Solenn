@@ -1,3 +1,5 @@
+export 'package:solenn/core/platform/clipboard_service.dart';
 export 'package:solenn/core/platform/haptics_service.dart';
 export 'package:solenn/core/platform/platform_style.dart';
+export 'package:solenn/core/platform/system_clipboard_service.dart';
 export 'package:solenn/core/platform/system_haptics_service.dart';

@@ -166,3 +166,17 @@ the process (constraint C3).
   and disappears as soon as the user types again or hits an error.
 - **Wiring.** `AppDependencies` carries the launch's `SabotageEngine`;
   `SolennApp` provides it, and `CalculatorPage` builds its cubit with it.
+
+## Copying
+
+A long press on the display copies the main line as the user reads it:
+
+- the typed number while typing (`24,000`);
+- the displayed result after `=`, lie included;
+- the percent sign, and scientific notation, exactly as shown.
+
+An error is not copied. Feedback is a medium haptic and the caption of the
+display switching to "Copied" for 1.5 seconds, then back to what it was. A
+second copy restarts the delay. Screen readers get the same action as a
+"Copy result" long press. Android 13 and later also shows its own clipboard
+confirmation, which does not conflict with the one inside the app.

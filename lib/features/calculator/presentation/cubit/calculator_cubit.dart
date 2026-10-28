@@ -50,7 +50,7 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     final index = state.committedCount + 1;
 
     switch (_pipeline.calculate(request, calculationIndex: index)) {
-      case CalculationSucceeded(:final result):
+      case CalculationSucceeded(:final result, :final sabotage):
         final entry = HistoryEntry(tokens: request.tokens, result: result);
         emit(
           CalculatorState(
@@ -60,6 +60,7 @@ class CalculatorCubit extends Cubit<CalculatorState> {
               ...state.history,
             ].take(maxHistoryEntries).toList(growable: false),
             committedCount: index,
+            lastOutcome: sabotage,
           ),
         );
       case CalculationFailed():

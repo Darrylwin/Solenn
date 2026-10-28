@@ -24,6 +24,9 @@ class SolennApp extends StatelessWidget {
       providers: [
         RepositoryProvider<AppLogger>.value(value: dependencies.logger),
         RepositoryProvider<HapticsService>.value(value: dependencies.haptics),
+        RepositoryProvider<ClipboardService>.value(
+          value: dependencies.clipboard,
+        ),
         RepositoryProvider<AppInfo>.value(value: dependencies.appInfo),
         RepositoryProvider<SabotageEngine>.value(
           value: dependencies.sabotageEngine,

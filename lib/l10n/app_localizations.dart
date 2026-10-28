@@ -399,6 +399,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get calculatorError;
+
+  /// Confirmation shown briefly on the calculator display after its result was copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get calculatorCopied;
+
+  /// Spoken hint of the long-press action that copies the calculator result.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy result'**
+  String get calculatorCopyHint;
 }
 
 class _AppLocalizationsDelegate

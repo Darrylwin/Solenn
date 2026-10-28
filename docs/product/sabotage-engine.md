@@ -79,3 +79,14 @@ An expression gets the same lie for the whole launch. The memo key is the
 expression itself, with numbers compared by value and operands kept in order:
 `1.50 + 1` and `1.5 + 1` share a lie, `2 + 3` and `3 + 2` do not. The memo is
 in memory, like everything else (constraint C3).
+
+## Debug overlay (S8)
+
+In debug builds only, a line at the top-end of the display shows the number of
+the calculation, the strategy that lied and the truth: `#2 · digitShuffle ·
+truth 24,220`. It is visible only while a result is displayed.
+
+The line is produced by `calculatorDebugLabel`, whose `enabled` default is
+`kDebugMode`. As that is a compile-time constant, release builds contain no
+trace of the overlay. The truth itself stays in the Cubit state (like the rest
+of the session, in memory only), but no release code reads it.

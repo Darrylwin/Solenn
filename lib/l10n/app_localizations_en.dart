@@ -174,4 +174,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calculatorError => 'Error';
+
+  @override
+  String get calculatorCopied => 'Copied';
+
+  @override
+  String get calculatorCopyHint => 'Copy result';
 }

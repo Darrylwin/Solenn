@@ -5,10 +5,11 @@ import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/l10n/l10n.dart';
 
+import 'fake_clipboard_service.dart';
 import 'fake_haptics_service.dart';
 
-/// Pumps [child] inside the Solenn theme, localizations and a fake haptics
-/// service, at a given screen [size], text scale and platform dialect.
+/// Pumps [child] inside the Solenn theme, localizations and fake platform
+/// services, at a given screen [size], text scale and platform dialect.
 Future<void> pumpScreen(
   WidgetTester tester,
   Widget child, {
@@ -16,6 +17,7 @@ Future<void> pumpScreen(
   Size size = const Size(390, 844),
   double textScale = 1,
   HapticsService? haptics,
+  ClipboardService? clipboard,
 }) async {
   tester.view
     ..physicalSize = size
@@ -23,8 +25,15 @@ Future<void> pumpScreen(
   addTearDown(tester.view.reset);
 
   await tester.pumpWidget(
-    RepositoryProvider<HapticsService>.value(
-      value: haptics ?? FakeHapticsService(),
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<HapticsService>.value(
+          value: haptics ?? FakeHapticsService(),
+        ),
+        RepositoryProvider<ClipboardService>.value(
+          value: clipboard ?? FakeClipboardService(),
+        ),
+      ],
       child: MaterialApp(
         theme: buildSolennTheme().copyWith(platform: platform),
         localizationsDelegates: AppLocalizations.localizationsDelegates,

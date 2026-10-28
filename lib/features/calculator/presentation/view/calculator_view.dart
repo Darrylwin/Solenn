@@ -25,6 +25,8 @@ class CalculatorView extends StatelessWidget {
     this.banner,
     this.onHistoryPressed,
     this.onAccountPressed,
+    this.onResultLongPress,
+    this.debugLabel,
     super.key,
   });
 
@@ -54,6 +56,12 @@ class CalculatorView extends StatelessWidget {
 
   /// Called when the account button is tapped. `null` disables it.
   final VoidCallback? onAccountPressed;
+
+  /// Called on a long press of the display. `null` disables the gesture.
+  final VoidCallback? onResultLongPress;
+
+  /// Developer line shown over the display. `null` hides it.
+  final String? debugLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +128,8 @@ class CalculatorView extends StatelessWidget {
                               expression: expression,
                               result: result,
                               caption: caption,
+                              debugLabel: debugLabel,
+                              onLongPress: onResultLongPress,
                             ),
                           ),
                         ),
