@@ -180,4 +180,153 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calculatorCopyHint => 'Copy result';
+
+  @override
+  String get plusBadge => 'PLUS';
+
+  @override
+  String get welcomeBannerTitle => 'Welcome to Solenn Plus';
+
+  @override
+  String get welcomeBannerMessage =>
+      'Your plan is active. Calculate without limits.';
+
+  @override
+  String planTitle(String plan) {
+    String _temp0 = intl.Intl.selectLogic(
+      plan,
+      {
+        'annual': 'Annual',
+        'monthly': 'Monthly',
+        'enterprise': 'Enterprise',
+        'other': 'Plan',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String planTrial(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days-day free trial',
+      one: '1-day free trial',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String planTrialThenMonthly(String trial, String price) {
+    return '$trial · $price / month';
+  }
+
+  @override
+  String planMonthlyEquivalent(String price) {
+    return '$price / month';
+  }
+
+  @override
+  String get planSubtitleMonthly => 'Billed monthly · Cancel anytime';
+
+  @override
+  String get planSubtitleEnterprise => 'Slightly less wrong results';
+
+  @override
+  String planBestValueBadge(int percent) {
+    return 'BEST VALUE · SAVE $percent%';
+  }
+
+  @override
+  String pricePerPeriod(String price, String period) {
+    String _temp0 = intl.Intl.selectLogic(
+      period,
+      {
+        'monthly': 'month',
+        'yearly': 'year',
+        'other': 'period',
+      },
+    );
+    return '$price / $_temp0';
+  }
+
+  @override
+  String priceSpokenPerPeriod(String price, String period) {
+    String _temp0 = intl.Intl.selectLogic(
+      period,
+      {
+        'monthly': 'month',
+        'yearly': 'year',
+        'other': 'period',
+      },
+    );
+    return '$price per $_temp0';
+  }
+
+  @override
+  String planSemanticsHead(String title, String price) {
+    return '$title plan, $price';
+  }
+
+  @override
+  String planSemanticsSavings(int percent) {
+    return 'save $percent percent';
+  }
+
+  @override
+  String get planSemanticsBilledMonthly => 'billed monthly, cancel anytime';
+
+  @override
+  String ctaStartTrial(String trial) {
+    return 'Start $trial';
+  }
+
+  @override
+  String ctaSubscribe(String price) {
+    return 'Subscribe for $price';
+  }
+
+  @override
+  String finePrintAfterTrial(String price) {
+    return 'Then $price';
+  }
+
+  @override
+  String finePrintBilled(String price) {
+    return 'Billed $price';
+  }
+
+  @override
+  String checkoutPlanName(String plan) {
+    String _temp0 = intl.Intl.selectLogic(
+      plan,
+      {
+        'annual': 'Annual subscription',
+        'monthly': 'Monthly subscription',
+        'enterprise': 'Enterprise subscription',
+        'other': 'Subscription',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checkoutRowTrial => 'Free trial';
+
+  @override
+  String get checkoutRowThen => 'Then';
+
+  @override
+  String get checkoutRowPrice => 'Price';
+
+  @override
+  String checkoutTrialLength(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
 }

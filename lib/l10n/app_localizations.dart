@@ -411,6 +411,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy result'**
   String get calculatorCopyHint;
+
+  /// Badge shown in the header once the app is unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'PLUS'**
+  String get plusBadge;
+
+  /// Title of the banner shown briefly after the app is unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Solenn Plus'**
+  String get welcomeBannerTitle;
+
+  /// Message of the banner shown briefly after the app is unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan is active. Calculate without limits.'**
+  String get welcomeBannerMessage;
+
+  /// Name of a subscription plan.
+  ///
+  /// In en, this message translates to:
+  /// **'{plan, select, annual{Annual} monthly{Monthly} enterprise{Enterprise} other{Plan}}'**
+  String planTitle(String plan);
+
+  /// Length of a free trial.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1-day free trial} other{{days}-day free trial}}'**
+  String planTrial(int days);
+
+  /// Subtitle of a plan with a free trial: the trial, then the monthly equivalent of the price.
+  ///
+  /// In en, this message translates to:
+  /// **'{trial} · {price} / month'**
+  String planTrialThenMonthly(String trial, String price);
+
+  /// Subtitle of a yearly plan without trial: what one month costs.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / month'**
+  String planMonthlyEquivalent(String price);
+
+  /// Subtitle of the monthly plan.
+  ///
+  /// In en, this message translates to:
+  /// **'Billed monthly · Cancel anytime'**
+  String get planSubtitleMonthly;
+
+  /// Subtitle of the enterprise plan.
+  ///
+  /// In en, this message translates to:
+  /// **'Slightly less wrong results'**
+  String get planSubtitleEnterprise;
+
+  /// Uppercase badge on the plan that saves the most.
+  ///
+  /// In en, this message translates to:
+  /// **'BEST VALUE · SAVE {percent}%'**
+  String planBestValueBadge(int percent);
+
+  /// A price followed by its billing period.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / {period, select, monthly{month} yearly{year} other{period}}'**
+  String pricePerPeriod(String price, String period);
+
+  /// A price and its billing period, written to be read aloud.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} per {period, select, monthly{month} yearly{year} other{period}}'**
+  String priceSpokenPerPeriod(String price, String period);
+
+  /// Start of the spoken description of a plan card.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} plan, {price}'**
+  String planSemanticsHead(String title, String price);
+
+  /// Spoken savings of a plan card.
+  ///
+  /// In en, this message translates to:
+  /// **'save {percent} percent'**
+  String planSemanticsSavings(int percent);
+
+  /// Spoken billing terms of the monthly plan card.
+  ///
+  /// In en, this message translates to:
+  /// **'billed monthly, cancel anytime'**
+  String get planSemanticsBilledMonthly;
+
+  /// Main button of the paywall when the selected plan has a free trial.
+  ///
+  /// In en, this message translates to:
+  /// **'Start {trial}'**
+  String ctaStartTrial(String trial);
+
+  /// Main button of the paywall when the selected plan has no free trial.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe for {price}'**
+  String ctaSubscribe(String price);
+
+  /// Line under the main button when the selected plan has a free trial.
+  ///
+  /// In en, this message translates to:
+  /// **'Then {price}'**
+  String finePrintAfterTrial(String price);
+
+  /// Line under the main button when the selected plan has no free trial.
+  ///
+  /// In en, this message translates to:
+  /// **'Billed {price}'**
+  String finePrintBilled(String price);
+
+  /// Second line of the purchase confirmation header.
+  ///
+  /// In en, this message translates to:
+  /// **'{plan, select, annual{Annual subscription} monthly{Monthly subscription} enterprise{Enterprise subscription} other{Subscription}}'**
+  String checkoutPlanName(String plan);
+
+  /// Label of the free trial row of the purchase summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Free trial'**
+  String get checkoutRowTrial;
+
+  /// Label of the row that gives the price charged after the trial.
+  ///
+  /// In en, this message translates to:
+  /// **'Then'**
+  String get checkoutRowThen;
+
+  /// Label of the price row of a purchase without trial.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get checkoutRowPrice;
+
+  /// Length of the free trial in the purchase summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day} other{{days} days}}'**
+  String checkoutTrialLength(int days);
 }
 
 class _AppLocalizationsDelegate

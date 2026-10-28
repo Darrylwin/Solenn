@@ -24,16 +24,26 @@ const Duration calculatorCopiedDuration = Duration(milliseconds: 1500);
 /// The calculator: creates its Cubit and turns its state into a screen.
 ///
 /// The sabotage engine comes from the tree, where `app` provides the one of
-/// the launch. `headerCenter` and `banner` are slots for the `app` layer.
+/// the launch. `headerCenter` and `banner` are slots, and
+/// [onCalculationCommitted] a hook, for the `app` layer: the calculator knows
+/// nothing about subscriptions.
 class CalculatorPage extends StatelessWidget {
   /// Creates the page.
-  const CalculatorPage({this.headerCenter, this.banner, super.key});
+  const CalculatorPage({
+    this.headerCenter,
+    this.banner,
+    this.onCalculationCommitted,
+    super.key,
+  });
 
   /// Widget centered in the header row.
   final Widget? headerCenter;
 
   /// Widget shown between the header and the display.
   final Widget? banner;
+
+  /// Called each time a calculation succeeds. Errors do not count.
+  final VoidCallback? onCalculationCommitted;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +53,12 @@ class CalculatorPage extends StatelessWidget {
           sabotageEngine: context.read<SabotageEngine>(),
         ),
       ),
-      child: _CalculatorScreen(headerCenter: headerCenter, banner: banner),
+      child: BlocListener<CalculatorCubit, CalculatorState>(
+        listenWhen: (previous, current) =>
+            current.committedCount > previous.committedCount,
+        listener: (context, state) => onCalculationCommitted?.call(),
+        child: _CalculatorScreen(headerCenter: headerCenter, banner: banner),
+      ),
     );
   }
 }

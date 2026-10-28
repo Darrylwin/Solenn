@@ -8,9 +8,14 @@ import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
 import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
+import 'package:solenn/features/subscription/domain/pricing/pricing_catalog.dart';
+import 'package:solenn/features/subscription/presentation/cubit/subscription_cubit.dart';
 import 'package:solenn/l10n/l10n.dart';
 
 /// Root widget: installs the theme, localizations, routing and services.
+///
+/// The subscription flow lives above the navigator: its state belongs to the
+/// launch, not to a screen.
 class SolennApp extends StatelessWidget {
   /// Creates the application with its [dependencies].
   const SolennApp({required this.dependencies, super.key});
@@ -31,16 +36,25 @@ class SolennApp extends StatelessWidget {
         RepositoryProvider<SabotageEngine>.value(
           value: dependencies.sabotageEngine,
         ),
+        RepositoryProvider<PricingCatalog>.value(
+          value: dependencies.pricingCatalog,
+        ),
       ],
-      child: MaterialApp(
-        onGenerateTitle: (context) => context.l10n.appName,
-        debugShowCheckedModeBanner: false,
-        theme: buildSolennTheme(),
-        themeMode: ThemeMode.dark,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        initialRoute: AppRoute.home.path,
-        onGenerateRoute: onGenerateAppRoute,
+      child: BlocProvider<SubscriptionCubit>(
+        create: (_) => SubscriptionCubit(
+          catalog: dependencies.pricingCatalog,
+          timings: dependencies.subscriptionTimings,
+        ),
+        child: MaterialApp(
+          onGenerateTitle: (context) => context.l10n.appName,
+          debugShowCheckedModeBanner: false,
+          theme: buildSolennTheme(),
+          themeMode: ThemeMode.dark,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          initialRoute: AppRoute.home.path,
+          onGenerateRoute: onGenerateAppRoute,
+        ),
       ),
     );
   }

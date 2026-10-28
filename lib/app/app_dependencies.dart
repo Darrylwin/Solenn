@@ -3,6 +3,8 @@ import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
 import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
+import 'package:solenn/features/subscription/domain/flow/subscription_timings.dart';
+import 'package:solenn/features/subscription/domain/pricing/pricing_catalog.dart';
 
 /// Everything the application needs from the outside world, assembled once
 /// by `bootstrap` and injected by constructor.
@@ -17,6 +19,8 @@ class AppDependencies {
     required this.clipboard,
     required this.appInfo,
     required this.sabotageEngine,
+    required this.pricingCatalog,
+    required this.subscriptionTimings,
   });
 
   /// Logging facade.
@@ -36,4 +40,10 @@ class AppDependencies {
   /// It is stateful (it remembers each expression's lie), so exactly one
   /// instance exists per launch, seeded once.
   final SabotageEngine sabotageEngine;
+
+  /// The plans on sale.
+  final PricingCatalog pricingCatalog;
+
+  /// The delays of the subscription flow.
+  final SubscriptionTimings subscriptionTimings;
 }
