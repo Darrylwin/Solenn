@@ -81,3 +81,18 @@ Policy, Open-source licenses, Version and build. Restore purchases moves to
 is bundled (`assets/legal`) and parsed by a pure `LegalDocumentParser`
 (convention: `#` for headings, blank line between paragraphs). The privacy text
 must be truthful: Solenn collects and transmits nothing.
+
+## Domain types
+
+`features/subscription/domain/flow` holds the vocabulary of the state machine.
+
+- **`UnlockSource`** says why the app is unlocked: `Purchased(plan)` after the
+  checkout, `Dismissed(reason)` after any exit from the paywall, `Restored`
+  after a restoration.
+- **`DismissReason`** is `closeButton`, `declined` or `systemBack`.
+  Restoration is *not* a dismissal reason: it has its own source, because it
+  can also happen before the paywall ever appeared (from the account screen).
+  This refines rule F3, which listed `restore` among the reasons.
+- **`SubscriptionTimings`** holds the two delays (2.5 s before the paywall,
+  1.2 s of fake processing). They are injected so that tests and integration
+  runs can shorten them.
