@@ -240,5 +240,150 @@
   "calculatorCopyHint": "Copy result",
   "@calculatorCopyHint": {
     "description": "Spoken hint of the long-press action that copies the calculator result."
+  },
+  "plusBadge": "PLUS",
+  "@plusBadge": {
+    "description": "Badge shown in the header once the app is unlocked."
+  },
+  "welcomeBannerTitle": "Welcome to Solenn Plus",
+  "@welcomeBannerTitle": {
+    "description": "Title of the banner shown briefly after the app is unlocked."
+  },
+  "welcomeBannerMessage": "Your plan is active. Calculate without limits.",
+  "@welcomeBannerMessage": {
+    "description": "Message of the banner shown briefly after the app is unlocked."
+  },
+  "planTitle": "{plan, select, annual{Annual} monthly{Monthly} enterprise{Enterprise} other{Plan}}",
+  "@planTitle": {
+    "description": "Name of a subscription plan.",
+    "placeholders": {
+      "plan": {"type": "String", "example": "annual"}
+    }
+  },
+  "planTrial": "{days, plural, =1{1-day free trial} other{{days}-day free trial}}",
+  "@planTrial": {
+    "description": "Length of a free trial.",
+    "placeholders": {
+      "days": {"type": "int", "example": "7"}
+    }
+  },
+  "planTrialThenMonthly": "{trial} · {price} / month",
+  "@planTrialThenMonthly": {
+    "description": "Subtitle of a plan with a free trial: the trial, then the monthly equivalent of the price.",
+    "placeholders": {
+      "trial": {"type": "String", "example": "7-day free trial"},
+      "price": {"type": "String", "example": "$3.33"}
+    }
+  },
+  "planMonthlyEquivalent": "{price} / month",
+  "@planMonthlyEquivalent": {
+    "description": "Subtitle of a yearly plan without trial: what one month costs.",
+    "placeholders": {
+      "price": {"type": "String", "example": "$3.33"}
+    }
+  },
+  "planSubtitleMonthly": "Billed monthly · Cancel anytime",
+  "@planSubtitleMonthly": {
+    "description": "Subtitle of the monthly plan."
+  },
+  "planSubtitleEnterprise": "Slightly less wrong results",
+  "@planSubtitleEnterprise": {
+    "description": "Subtitle of the enterprise plan."
+  },
+  "planBestValueBadge": "BEST VALUE · SAVE {percent}%",
+  "@planBestValueBadge": {
+    "description": "Uppercase badge on the plan that saves the most.",
+    "placeholders": {
+      "percent": {"type": "int", "example": "33"}
+    }
+  },
+  "pricePerPeriod": "{price} / {period, select, monthly{month} yearly{year} other{period}}",
+  "@pricePerPeriod": {
+    "description": "A price followed by its billing period.",
+    "placeholders": {
+      "price": {"type": "String", "example": "$39.99"},
+      "period": {"type": "String", "example": "yearly"}
+    }
+  },
+  "priceSpokenPerPeriod": "{price} per {period, select, monthly{month} yearly{year} other{period}}",
+  "@priceSpokenPerPeriod": {
+    "description": "A price and its billing period, written to be read aloud.",
+    "placeholders": {
+      "price": {"type": "String", "example": "$39.99"},
+      "period": {"type": "String", "example": "yearly"}
+    }
+  },
+  "planSemanticsHead": "{title} plan, {price}",
+  "@planSemanticsHead": {
+    "description": "Start of the spoken description of a plan card.",
+    "placeholders": {
+      "title": {"type": "String", "example": "Annual"},
+      "price": {"type": "String", "example": "$39.99 per year"}
+    }
+  },
+  "planSemanticsSavings": "save {percent} percent",
+  "@planSemanticsSavings": {
+    "description": "Spoken savings of a plan card.",
+    "placeholders": {
+      "percent": {"type": "int", "example": "33"}
+    }
+  },
+  "planSemanticsBilledMonthly": "billed monthly, cancel anytime",
+  "@planSemanticsBilledMonthly": {
+    "description": "Spoken billing terms of the monthly plan card."
+  },
+  "ctaStartTrial": "Start {trial}",
+  "@ctaStartTrial": {
+    "description": "Main button of the paywall when the selected plan has a free trial.",
+    "placeholders": {
+      "trial": {"type": "String", "example": "7-day free trial"}
+    }
+  },
+  "ctaSubscribe": "Subscribe for {price}",
+  "@ctaSubscribe": {
+    "description": "Main button of the paywall when the selected plan has no free trial.",
+    "placeholders": {
+      "price": {"type": "String", "example": "$4.99 / month"}
+    }
+  },
+  "finePrintAfterTrial": "Then {price}",
+  "@finePrintAfterTrial": {
+    "description": "Line under the main button when the selected plan has a free trial.",
+    "placeholders": {
+      "price": {"type": "String", "example": "$39.99 / year"}
+    }
+  },
+  "finePrintBilled": "Billed {price}",
+  "@finePrintBilled": {
+    "description": "Line under the main button when the selected plan has no free trial.",
+    "placeholders": {
+      "price": {"type": "String", "example": "$4.99 / month"}
+    }
+  },
+  "checkoutPlanName": "{plan, select, annual{Annual subscription} monthly{Monthly subscription} enterprise{Enterprise subscription} other{Subscription}}",
+  "@checkoutPlanName": {
+    "description": "Second line of the purchase confirmation header.",
+    "placeholders": {
+      "plan": {"type": "String", "example": "annual"}
+    }
+  },
+  "checkoutRowTrial": "Free trial",
+  "@checkoutRowTrial": {
+    "description": "Label of the free trial row of the purchase summary."
+  },
+  "checkoutRowThen": "Then",
+  "@checkoutRowThen": {
+    "description": "Label of the row that gives the price charged after the trial."
+  },
+  "checkoutRowPrice": "Price",
+  "@checkoutRowPrice": {
+    "description": "Label of the price row of a purchase without trial."
+  },
+  "checkoutTrialLength": "{days, plural, =1{1 day} other{{days} days}}",
+  "@checkoutTrialLength": {
+    "description": "Length of the free trial in the purchase summary.",
+    "placeholders": {
+      "days": {"type": "int", "example": "7"}
+    }
   }
 }

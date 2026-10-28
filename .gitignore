@@ -45,7 +45,7 @@ app.*.map.json
 /android/app/release
 
 # Solenn
-/coverage/
+coverage/
 /build/symbols/
 .fvm/
 /android/key.properties

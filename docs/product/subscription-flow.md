@@ -132,3 +132,44 @@ mapping; the Cubit only has to ignore what does not apply.
 **Time.** Delays come from `SubscriptionTimings` and run on a `Timer` that is
 cancelled when the state moves on and when the Cubit closes, so nothing fires
 after the flow ended. Tests run on simulated time.
+
+## Assembly
+
+The flow reaches the screen through three pieces in `app/`; `features/*` never
+imports another feature.
+
+- **`SolennApp`** creates the `SubscriptionCubit` above the navigator, with the
+  catalog and the timings of `AppDependencies`: the flow belongs to the
+  launch, not to a screen.
+- **`CalculatorPage.onCalculationCommitted`** is the only link between the
+  calculator and the flow. The calculator calls it each time a calculation
+  succeeds, and `HomeScreen` hands it `SubscriptionCubit.calculationCommitted`.
+  The calculator does not know subscriptions exist.
+- **`PaywallPresenter`** listens to the flow and navigates, since the Cubit
+  must not. `PaywallVisible` pushes the paywall, `CheckoutVisible` opens the
+  confirmation sheet over it, going back to `PaywallVisible` closes the sheet,
+  and `Active` pops everything above the home screen.
+- **`HomeScreen`** fills the slots of the calculator: the PLUS badge as soon
+  as the app is unlocked, and the welcome banner for four seconds.
+
+### Closing surfaces
+
+| Gesture | On the paywall | On the checkout sheet |
+|---|---|---|
+| System back | `dismissPaywall(systemBack)`: unlocks | `cancelCheckout`: back to the paywall |
+| Swipe, scrim | none (full screen) | `cancelCheckout` |
+| During processing | none | back and scrim are ignored |
+
+During processing a drag can still close the sheet. That does not interrupt
+the purchase: the flow unlocks on its own when the delay ends. The paywall is
+a page route with its own transition (slide up, or a 120 ms fade when
+`disableAnimations` is set), and modal surfaces opened by a presenter are
+anonymous routes: `AppRoute` only names destinations reachable by name.
+
+### Wording
+
+Plan names, subtitles, the BEST VALUE badge and the button labels are built
+from the catalog and the localized strings (`paywall_content.dart`,
+`checkout_content.dart`). A view never contains a price. A plan without
+savings shows neither a struck-through price nor a badge, and a plan without
+trial offers a plain "Subscribe for" button.

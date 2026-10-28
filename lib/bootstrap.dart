@@ -14,6 +14,8 @@ import 'package:solenn/core/services/app_bloc_observer.dart';
 import 'package:solenn/core/services/app_info.dart';
 import 'package:solenn/core/services/app_logger.dart';
 import 'package:solenn/features/calculator/domain/sabotage/sabotage_engine.dart';
+import 'package:solenn/features/subscription/domain/flow/subscription_timings.dart';
+import 'package:solenn/features/subscription/domain/pricing/pricing_catalog.dart';
 
 /// Composition root: installs global hooks, builds [AppDependencies] and
 /// starts the application.
@@ -55,6 +57,8 @@ Future<void> bootstrap() async {
     sabotageEngine: SabotageEngine(
       random: Random(DateTime.now().microsecondsSinceEpoch),
     ),
+    pricingCatalog: PricingCatalog.standard,
+    subscriptionTimings: SubscriptionTimings.standard,
   );
 
   runApp(SolennApp(dependencies: dependencies));
