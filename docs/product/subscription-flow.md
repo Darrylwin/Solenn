@@ -96,3 +96,39 @@ must be truthful: Solenn collects and transmits nothing.
 - **`SubscriptionTimings`** holds the two delays (2.5 s before the paywall,
   1.2 s of fake processing). They are injected so that tests and integration
   runs can shorten them.
+
+## State machine
+
+`SubscriptionCubit` (`features/subscription/presentation/cubit`) implements
+the diagram of section 9.1. It refines it in three places.
+
+**Selecting is not buying.** The paywall has a selection and a call to action,
+so the plan is first *selected* (`selectPlan`), then bought with the call to
+action (`purchase`), which opens the checkout for the selected plan. The
+selection survives a cancelled checkout.
+
+**Restoring.** `restore` works from `Locked`, `PaywallPending` and
+`PaywallVisible`: the account screen can restore before any calculation, and
+the paywall footer can restore while the paywall is up. Restoring while the
+paywall is pending cancels the pending paywall.
+
+**Requests, not commands.** Every method is a request. One made in a state
+that cannot honor it does nothing and emits nothing.
+
+| State | Honors | Ignores |
+|---|---|---|
+| `Locked` | `calculationCommitted`, `restore` | everything else |
+| `PaywallPending` | `restore` | `calculationCommitted` (no restart), everything else |
+| `PaywallVisible` | `selectPlan`, `purchase`, `dismissPaywall`, `restore` | the rest |
+| `CheckoutVisible` | `cancelCheckout`, `confirmPurchase` | the rest, `restore` included |
+| `Processing` | nothing (the timer ends it) | every request |
+| `Active` | nothing | every request: the state is final |
+
+**System back.** On the paywall it is `dismissPaywall(systemBack)`. On the
+checkout sheet, closing the sheet (swipe, scrim, back) is `cancelCheckout`,
+and during processing the sheet cannot be dismissed. The presenter makes that
+mapping; the Cubit only has to ignore what does not apply.
+
+**Time.** Delays come from `SubscriptionTimings` and run on a `Timer` that is
+cancelled when the state moves on and when the Cubit closes, so nothing fires
+after the flow ended. Tests run on simulated time.
