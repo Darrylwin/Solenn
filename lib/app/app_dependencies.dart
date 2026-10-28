@@ -14,6 +14,7 @@ class AppDependencies {
   const AppDependencies({
     required this.logger,
     required this.haptics,
+    required this.clipboard,
     required this.appInfo,
     required this.sabotageEngine,
   });
@@ -23,6 +24,9 @@ class AppDependencies {
 
   /// Haptic feedback.
   final HapticsService haptics;
+
+  /// System clipboard.
+  final ClipboardService clipboard;
 
   /// Version information of the running build.
   final AppInfo appInfo;

@@ -232,5 +232,13 @@
   "calculatorError": "Error",
   "@calculatorError": {
     "description": "Text shown on the calculator display when an operation cannot be computed, such as a division by zero."
+  },
+  "calculatorCopied": "Copied",
+  "@calculatorCopied": {
+    "description": "Confirmation shown briefly on the calculator display after its result was copied."
+  },
+  "calculatorCopyHint": "Copy result",
+  "@calculatorCopyHint": {
+    "description": "Spoken hint of the long-press action that copies the calculator result."
   }
 }

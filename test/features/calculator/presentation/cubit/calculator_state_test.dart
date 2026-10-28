@@ -2,7 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:solenn/features/calculator/domain/history/history_entry.dart';
 import 'package:solenn/features/calculator/domain/input/calculator_input_state.dart';
 import 'package:solenn/features/calculator/domain/input/input_token.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_kind.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_outcome.dart';
 import 'package:solenn/features/calculator/presentation/cubit/calculator_state.dart';
+
+import '../../../../helpers/sabotage_fixtures.dart';
 
 void main() {
   const entry = HistoryEntry(tokens: [NumberToken('5')], result: '5');
@@ -48,5 +52,18 @@ void main() {
       const CalculatorState(history: [entry]),
       isNot(const CalculatorState()),
     );
+  });
+
+  test('should keep the last outcome through copies and compare it', () {
+    final outcome = SabotageOutcome(
+      truth: decimal('8'),
+      shown: decimal('9'),
+      kind: SabotageKind.nearMissOffset,
+    );
+    final state = CalculatorState(lastOutcome: outcome);
+
+    expect(state.copyWith(committedCount: 1).lastOutcome, outcome);
+    expect(state, CalculatorState(lastOutcome: outcome));
+    expect(state, isNot(const CalculatorState()));
   });
 }

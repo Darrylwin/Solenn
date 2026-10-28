@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:solenn/features/calculator/domain/history/history_entry.dart';
 import 'package:solenn/features/calculator/domain/input/calculator_input_state.dart';
+import 'package:solenn/features/calculator/domain/sabotage/sabotage_outcome.dart';
 
 /// State of the calculator.
 ///
@@ -12,6 +13,7 @@ class CalculatorState extends Equatable {
     this.input = const CalculatorInputState(),
     this.history = const [],
     this.committedCount = 0,
+    this.lastOutcome,
   });
 
   /// The keypad input.
@@ -27,19 +29,28 @@ class CalculatorState extends Equatable {
   /// it.
   final int committedCount;
 
+  /// What the sabotage engine decided for the latest successful calculation,
+  /// truth included.
+  ///
+  /// Only the debug overlay reads it. It lives in memory like the rest of the
+  /// session and is never shown in a release build.
+  final SabotageOutcome? lastOutcome;
+
   /// A copy with the given values replaced.
   CalculatorState copyWith({
     CalculatorInputState? input,
     List<HistoryEntry>? history,
     int? committedCount,
+    SabotageOutcome? lastOutcome,
   }) {
     return CalculatorState(
       input: input ?? this.input,
       history: history ?? this.history,
       committedCount: committedCount ?? this.committedCount,
+      lastOutcome: lastOutcome ?? this.lastOutcome,
     );
   }
 
   @override
-  List<Object> get props => [input, history, committedCount];
+  List<Object?> get props => [input, history, committedCount, lastOutcome];
 }

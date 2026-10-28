@@ -47,6 +47,7 @@ Future<void> bootstrap() async {
   final dependencies = AppDependencies(
     logger: logger,
     haptics: const SystemHapticsService(),
+    clipboard: const SystemClipboardService(),
     appInfo: AppInfo(
       version: packageInfo.version,
       buildNumber: packageInfo.buildNumber,

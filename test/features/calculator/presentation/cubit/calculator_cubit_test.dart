@@ -274,5 +274,37 @@ void main() {
 
       expect(cubit.state.input.isError, isTrue);
     });
+
+    group('last outcome', () {
+      test('should keep what the engine decided, truth included', () {
+        final cubit = _cubit([_shows('9')]);
+
+        _press(cubit, '5+3=');
+
+        expect(cubit.state.lastOutcome?.shown, decimal('9'));
+        expect(cubit.state.lastOutcome?.truth, decimal('0'));
+      });
+
+      test('should keep it after a failed calculation', () {
+        final cubit = _cubit([_shows('9'), _fails()]);
+
+        _press(cubit, '5+3=C1/0=');
+
+        expect(cubit.state.lastOutcome?.shown, decimal('9'));
+      });
+
+      test('should keep it after clearing the history', () {
+        final cubit = _cubit([_shows('9')]);
+        _press(cubit, '5+3=');
+
+        cubit.clearHistory();
+
+        expect(cubit.state.lastOutcome, isNotNull);
+      });
+
+      test('should be absent before any calculation', () {
+        expect(_cubit([]).state.lastOutcome, isNull);
+      });
+    });
   });
 }
