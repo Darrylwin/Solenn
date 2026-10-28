@@ -1,4 +1,4 @@
-- @Darrylwin
-  /.github/ @Darrylwin
-  /docs/adr/ @Darrylwin
-  /lib/features/\*/domain/ @Darrylwin
+*                        @Darrylwin
+/.github/                @Darrylwin
+/docs/adr/               @Darrylwin
+/lib/features/*/domain/  @Darrylwin

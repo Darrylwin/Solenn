@@ -329,4 +329,21 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get accountPlanFree => 'Solenn Free';
+
+  @override
+  String get accountPlanFreeDetail => 'Standard accuracy';
+
+  @override
+  String get accountPlanDismissedDetail => 'Complimentary access';
+
+  @override
+  String get accountPlanRestoredDetail => 'Restored purchase';
+
+  @override
+  String accountPlanDetailTrial(String plan, String trial) {
+    return '$plan · $trial';
+  }
 }

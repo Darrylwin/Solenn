@@ -25,14 +25,15 @@ const Duration calculatorCopiedDuration = Duration(milliseconds: 1500);
 ///
 /// The sabotage engine comes from the tree, where `app` provides the one of
 /// the launch. `headerCenter` and `banner` are slots, and
-/// [onCalculationCommitted] a hook, for the `app` layer: the calculator knows
-/// nothing about subscriptions.
+/// [onCalculationCommitted] and [onAccountPressed] are hooks, for the `app`
+/// layer: the calculator knows nothing about subscriptions or accounts.
 class CalculatorPage extends StatelessWidget {
   /// Creates the page.
   const CalculatorPage({
     this.headerCenter,
     this.banner,
     this.onCalculationCommitted,
+    this.onAccountPressed,
     super.key,
   });
 
@@ -44,6 +45,9 @@ class CalculatorPage extends StatelessWidget {
 
   /// Called each time a calculation succeeds. Errors do not count.
   final VoidCallback? onCalculationCommitted;
+
+  /// Called when the account button is tapped. `null` disables the button.
+  final VoidCallback? onAccountPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +61,26 @@ class CalculatorPage extends StatelessWidget {
         listenWhen: (previous, current) =>
             current.committedCount > previous.committedCount,
         listener: (context, state) => onCalculationCommitted?.call(),
-        child: _CalculatorScreen(headerCenter: headerCenter, banner: banner),
+        child: _CalculatorScreen(
+          headerCenter: headerCenter,
+          banner: banner,
+          onAccountPressed: onAccountPressed,
+        ),
       ),
     );
   }
 }
 
 class _CalculatorScreen extends StatefulWidget {
-  const _CalculatorScreen({required this.headerCenter, required this.banner});
+  const _CalculatorScreen({
+    required this.headerCenter,
+    required this.banner,
+    required this.onAccountPressed,
+  });
 
   final Widget? headerCenter;
   final Widget? banner;
+  final VoidCallback? onAccountPressed;
 
   @override
   State<_CalculatorScreen> createState() => _CalculatorScreenState();
@@ -119,6 +132,7 @@ class _CalculatorScreenState extends State<_CalculatorScreen> {
           // There is nothing worth copying from an error.
           onResultLongPress: input.isError ? null : () => _copy(display.result),
           onHistoryPressed: () => _openHistory(cubit),
+          onAccountPressed: widget.onAccountPressed,
         );
       },
     );
