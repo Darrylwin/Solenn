@@ -173,3 +173,26 @@ from the catalog and the localized strings (`paywall_content.dart`,
 `checkout_content.dart`). A view never contains a price. A plan without
 savings shows neither a struck-through price nor a badge, and a plan without
 trial offers a plain "Subscribe for" button.
+
+## Account and legal wiring
+
+The account feature stays independent of the subscription one: `AccountView`
+renders strings and reports intent. Everything that needs both features lives
+in `app/`.
+
+- **`AccountScreen`** (`app/`) builds the screen. It reads the subscription
+  state, the catalog and `AppInfo`, and passes plain strings to `AccountView`.
+- **`accountPlanFor`** (`app/account_content.dart`) turns the state of the flow
+  into the plan card: Solenn Free before the unlock; Solenn Plus with a PLUS
+  badge after it. The detail line names the purchased plan (and its trial), or
+  says the access is complimentary (paywall dismissed) or restored.
+- **Restoring** needs no confirmation of its own: `restore` unlocks the app,
+  the presenter pops every screen above home, and the welcome banner confirms.
+- **`LegalPage`** (`account/presentation/legal`) loads `assets/legal/<kind>.txt`
+  from the asset bundle of the tree and shows it in `LegalView`. Both the
+  account screen and the paywall footer open it through `openLegal`.
+- **Navigation** goes through `AppRoute` (`/account`, `/account/legal`) and the
+  helpers of `app/router/app_navigation.dart`. A legal route needs a
+  `LegalDocumentKind` argument, otherwise the router returns `null`.
+- **Licenses** use `showLicensePage`, themed by the app theme. The Manrope
+  license is registered at bootstrap.

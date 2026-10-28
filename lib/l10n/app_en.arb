@@ -385,5 +385,29 @@
     "placeholders": {
       "days": {"type": "int", "example": "7"}
     }
+  },
+  "accountPlanFree": "Solenn Free",
+  "@accountPlanFree": {
+    "description": "Name of the plan card of the account screen before the app is unlocked."
+  },
+  "accountPlanFreeDetail": "Standard accuracy",
+  "@accountPlanFreeDetail": {
+    "description": "Second line of the plan card of the account screen before the app is unlocked."
+  },
+  "accountPlanDismissedDetail": "Complimentary access",
+  "@accountPlanDismissedDetail": {
+    "description": "Second line of the plan card when the paywall was dismissed without a purchase."
+  },
+  "accountPlanRestoredDetail": "Restored purchase",
+  "@accountPlanRestoredDetail": {
+    "description": "Second line of the plan card after purchases were restored."
+  },
+  "accountPlanDetailTrial": "{plan} · {trial}",
+  "@accountPlanDetailTrial": {
+    "description": "Second line of the plan card for a purchased plan with a free trial.",
+    "placeholders": {
+      "plan": {"type": "String", "example": "Annual"},
+      "trial": {"type": "String", "example": "7-day free trial"}
+    }
   }
 }

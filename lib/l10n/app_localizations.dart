@@ -555,6 +555,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days, plural, =1{1 day} other{{days} days}}'**
   String checkoutTrialLength(int days);
+
+  /// Name of the plan card of the account screen before the app is unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Solenn Free'**
+  String get accountPlanFree;
+
+  /// Second line of the plan card of the account screen before the app is unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard accuracy'**
+  String get accountPlanFreeDetail;
+
+  /// Second line of the plan card when the paywall was dismissed without a purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Complimentary access'**
+  String get accountPlanDismissedDetail;
+
+  /// Second line of the plan card after purchases were restored.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored purchase'**
+  String get accountPlanRestoredDetail;
+
+  /// Second line of the plan card for a purchased plan with a free trial.
+  ///
+  /// In en, this message translates to:
+  /// **'{plan} · {trial}'**
+  String accountPlanDetailTrial(String plan, String trial);
 }
 
 class _AppLocalizationsDelegate

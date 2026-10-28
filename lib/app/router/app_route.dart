@@ -3,7 +3,13 @@
 /// Raw route strings never appear in widgets; they go through this type.
 enum AppRoute {
   /// The calculator.
-  home('/')
+  home('/'),
+
+  /// The account screen.
+  account('/account'),
+
+  /// A legal text. The route argument is a `LegalDocumentKind`.
+  accountLegal('/account/legal')
   ;
 
   const AppRoute(this.path);
