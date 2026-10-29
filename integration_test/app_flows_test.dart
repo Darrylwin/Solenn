@@ -98,9 +98,17 @@ void main() {
       tester,
     ) async {
       await pumpApp(tester);
-      await reachPaywall(tester, keys: '24000+220=');
+
+      await type(tester, '24000+220=');
+      await tester.pump();
+
+      // The result must be read before the paywall opens: its route covers
+      // the calculator, which leaves it out of the finders' reach.
       final displayed = _displayedResult(tester);
       expect(displayed, isNot('24,220'));
+
+      await waitPastPaywallDelay(tester);
+      expect(find.byType(PaywallView), findsOneWidget);
       await tapVisible(tester, find.byIcon(Icons.close_rounded));
 
       await tapVisible(tester, find.byIcon(Icons.history_rounded));
