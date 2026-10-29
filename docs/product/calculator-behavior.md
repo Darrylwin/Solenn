@@ -16,47 +16,55 @@ does not say otherwise, so the product feels familiar and real.
 
 ## Rules
 
-| Topic | Rule |
-| --- | --- |
-| Entry limit | 9 digits per operand (sign and separator excluded). Extra digits are ignored. Leading zeros collapse. A second decimal separator is ignored. |
-| Operator after operator | Replaces the previous operator. |
-| Operator with no entry | Uses 0 as the left operand. |
-| Trailing operator then `=` | Reuses the left operand as the right one (`5 + =` gives 10), as iOS does. |
-| +/- | Toggles the sign of the current entry. After `=`, toggles the sign of the displayed result and continues from it. |
-| % | Alone: value / 100. After + or -: `B%` means A x B / 100. After x or division: `B%` means B / 100. |
-| Backspace | Removes the last digit of the current entry. No effect on a committed result. |
-| AC | Clears the input. History and the launch-wide calculation counter are kept. |
-| Repeated `=` | Repeats the last operation (same operator and right operand) on the displayed result. Each repeat is a new calculation with a new index. |
-| Chaining | After `=`, an operator continues from the displayed value, so the lie compounds consistently with what the user sees. A digit after `=` starts a new expression. |
-| Errors | Division by zero and overflow display `Error`. They are not sabotaged, not counted, not added to history, and do not start the paywall. |
-| Precision | 15 significant digits internally. Division rounds half-up. Negative zero is normalized to 0. |
-| Display format | Up to 9 significant digits. Beyond that, scientific notation. Trailing zeros are trimmed. |
-| Locale | Grouping and decimal separators come from the device locale. The decimal key glyph follows the locale. |
-| Auto-fit | The result font shrinks in steps from 64 down to 32 before anything is truncated. The expression line keeps its tail visible. |
-| Copy | Long press on the display copies the displayed result, with a haptic and a short transient confirmation. |
+| Topic                      | Rule                                                                                                                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Entry limit                | 9 digits per operand (sign and separator excluded). Extra digits are ignored. Leading zeros collapse. A second decimal separator is ignored.                     |
+| Operator after operator    | Replaces the previous operator.                                                                                                                                  |
+| Operator with no entry     | Uses 0 as the left operand.                                                                                                                                      |
+| Trailing operator then `=` | Reuses the left operand as the right one (`5 + =` gives 10), as iOS does.                                                                                        |
+| +/-                        | Toggles the sign of the current entry. After `=`, toggles the sign of the displayed result and continues from it.                                                |
+| %                          | Alone: value / 100. After + or -: `B%` means A x B / 100. After x or division: `B%` means B / 100.                                                               |
+| Backspace                  | Removes the last digit of the current entry. No effect on a committed result.                                                                                    |
+| AC                         | Clears the input. History and the launch-wide calculation counter are kept.                                                                                      |
+| Repeated `=`               | Repeats the last operation (same operator and right operand) on the displayed result. Each repeat is a new calculation with a new index.                         |
+| Chaining                   | After `=`, an operator continues from the displayed value, so the lie compounds consistently with what the user sees. A digit after `=` starts a new expression. |
+| Errors                     | Division by zero and overflow display `Error`. They are not sabotaged, not counted, not added to history, and do not start the paywall.                          |
+| Precision                  | 15 significant digits internally. Division rounds half-up. Negative zero is normalized to 0.                                                                     |
+| Display format             | Up to 9 significant digits. Beyond that, scientific notation. Trailing zeros are trimmed.                                                                        |
+| Locale                     | Grouping and decimal separators come from the device locale. The decimal key glyph follows the locale.                                                           |
+| Auto-fit                   | The result scales down to fit the card (64 at most) instead of wrapping or truncating. The expression line keeps its tail visible.                               |
+| Copy                       | Long press on the display copies the displayed result, with a haptic and a short transient confirmation.                                                         |
 
-**Open design points.** The delivered mock shows a comma as the decimal key
-together with comma-grouped digits, a pair that cannot occur in any locale. The
-decimal key must render the locale separator (en-US: `.` with `,` grouping). The
-selected-operator state also needs a design; the proposal is an `onAccent` fill
-with an accent glyph and a 1.5 px accent ring.
+**Design points.** The delivered mock shows a comma as the decimal key together
+with comma-grouped digits, a pair that cannot occur in any locale. The decimal
+key therefore renders the locale separator (en-US: `.` with `,` grouping), as
+implemented. The selected-operator state is implemented as proposed (an
+`onAccent` fill with an accent glyph and a 1.5 px accent ring) and awaits
+design sign-off.
 
 ## Domain pipeline
 
 ```text
 key press ─► CalculatorInputReducer (pure)  ─► CalculatorInputState
 '='       ─► ExpressionParser               ─► Expression (AST)
-          ─► Evaluator                      ─► EvaluationResult: Value(truth) | Failure(kind)
-          ─► SabotageEngine                 ─► DisplayedResult
-          ─► CalculatorCubit                ─► CalculatorState (display, history, committedCount)
+          ─► ExpressionEvaluator            ─► EvaluationResult: EvaluationSuccess(truth) | EvaluationFailure(kind)
+          ─► SabotageEngine                 ─► SabotageOutcome (truth, shown, kind)
+          ─► CalculatorCubit                ─► CalculatorState (input, history, committedCount, lastOutcome)
 ```
 
+`CalculationPipeline` chains the parser, the evaluator and the engine, and
+returns a `CalculationOutcome` (`CalculationSucceeded` or `CalculationFailed`).
+
 Canonical domain names: `CalculatorKey`, `CalculatorInputState`,
-`CalculatorInputReducer`, `Expression` (sealed: `Literal`, `Unary`, `Binary`,
-`Percent`), `EvaluationResult` (sealed), `Calculation`, `HistoryEntry`,
+`CalculatorInputReducer`, `Expression` (sealed: `Literal`, `Percent`,
+`Binary`), `EvaluationResult` (sealed), `CalculationPipeline`,
+`CalculationOutcome` (sealed), `SabotageOutcome`, `HistoryEntry`,
 `NumberSymbols`, `NumberFormatter`. The formatter receives `NumberSymbols`
 (separators) as a value so it stays pure; the presentation layer derives them
 from `intl`.
+
+A negative number is a literal (`-5`): the sign belongs to the operand the user
+typed, so the tree has no unary node.
 
 The evaluator is verified against `test/fixtures/evaluator_cases.csv`: at least
 200 cases covering precedence, decimals, every `%` rule, repeated `=`, chaining,
@@ -95,7 +103,7 @@ Rules that refine the table above:
 
 ## Evaluation
 
-The evaluator computes the *truth*; sabotage is a separate, later step.
+The evaluator computes the _truth_; sabotage is a separate, later step.
 
 - **Exact decimals.** Operands are decimal numbers, so `0.1 + 0.2` is exactly
   `0.3`. Nothing goes through binary floating point.
@@ -112,11 +120,11 @@ The evaluator computes the *truth*; sabotage is a separate, later step.
 
 The parser resolves a percent operand by the operator before it:
 
-| Position | `B%` means | Example |
-|---|---|---|
-| Alone, or first operand | `B / 100` | `50 %` is `0.5` |
-| After `x` or `/` | `B / 100` | `50 x 10 %` is `5` |
-| After `+` or `-` | `A x B / 100` | `50 + 10 %` is `55` |
+| Position                | `B%` means    | Example             |
+| ----------------------- | ------------- | ------------------- |
+| Alone, or first operand | `B / 100`     | `50 %` is `0.5`     |
+| After `x` or `/`        | `B / 100`     | `50 x 10 %` is `5`  |
+| After `+` or `-`        | `A x B / 100` | `50 + 10 %` is `55` |
 
 `A` is the whole expression to the left of the `+` or `-` (the running
 total), so `1 + 2 x 3 + 10 %` is `7 + 0.7`. A percent operand that follows an
@@ -131,14 +139,14 @@ display. They are pure: the locale reaches them as `NumberSymbols` (decimal
 separator, group separator, minus sign), read from the device by the
 presentation layer. Digits are always ASCII.
 
-| Situation | Rule | Example |
-|---|---|---|
-| Number being typed | Written as typed, grouped by three | `1,234.50`, `5.`, `-0` |
+| Situation                    | Rule                                                                         | Example                  |
+| ---------------------------- | ---------------------------------------------------------------------------- | ------------------------ |
+| Number being typed           | Written as typed, grouped by three                                           | `1,234.50`, `5.`, `-0`   |
 | Computed or committed number | Rounded to 9 significant digits, half away from zero, trailing zeros removed | `1 ÷ 3` is `0.333333333` |
-| From 1e-6 up to 1e9 | Positional, grouped by three | `123,456,790` |
-| Outside that range | Scientific, mantissa without trailing zeros | `1.23456789e+9`, `1e-7` |
-| After rounding | The range is checked after rounding | `999999999.5` is `1e+9` |
-| Failed evaluation | The localized error label | `Error` |
+| From 1e-6 up to 1e9          | Positional, grouped by three                                                 | `123,456,790`            |
+| Outside that range           | Scientific, mantissa without trailing zeros                                  | `1.23456789e+9`, `1e-7`  |
+| After rounding               | The range is checked after rounding                                          | `999999999.5` is `1e+9`  |
+| Failed evaluation            | The localized error label                                                    | `Error`                  |
 
 The first line shows what was committed, with a space around each operator
 (`5 + 3 ×`); the second line shows the number being typed, or the result after
@@ -164,6 +172,8 @@ the process (constraint C3).
   the symbols of the device locale, so a locale change needs no state change.
 - **Caption.** "Verified · 99.9% accuracy" shows while a result is displayed,
   and disappears as soon as the user types again or hits an error.
+- **Result reveal.** Each displayed result fades in once (see the design
+  system); typing and errors show at once.
 - **Wiring.** `AppDependencies` carries the launch's `SabotageEngine`;
   `SolennApp` provides it, and `CalculatorPage` builds its cubit with it.
 

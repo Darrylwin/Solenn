@@ -10,8 +10,8 @@ geometry) never adapts. Behavior and containers do. Adaptive components live in
 | Concern | iOS | Android |
 | --- | --- | --- |
 | Page transitions | Cupertino slide with interactive edge-swipe back | `PredictiveBackPageTransitionsBuilder` (manifest opt-in `enableOnBackInvokedCallback`); Material default on older versions |
-| Sheets | Cupertino-style sheet (`showCupertinoSheet`): grabber, 32 radius, scaling background | M3 modal bottom sheet with drag handle, same radius and content, safe-area aware |
-| Alerts | `CupertinoAlertDialog` | M3 `AlertDialog`, both via `showAdaptiveDialog` |
+| Sheets | Cupertino modal popup attached to the bottom (`showCupertinoModalPopup`): grabber drawn by `SolennSheetScaffold`, 32 radius, sized by its content | M3 modal bottom sheet with drag handle, same radius and content, safe-area aware |
+| Alerts | `CupertinoAlertDialog` | M3 `AlertDialog`, both via `showAdaptiveDialog`. No alert exists in 1.0: the checkout is a sheet. The policy applies if one is added |
 | Scrolling | Bouncing | Clamping with stretch overscroll. Flutter defaults; never overridden. |
 | Press feedback | Fill brightens by 12%, 80 ms, no ripple | Ink ripple clipped to the circle, accent-tinted |
 | Haptics | `selectionClick` on digits and functions, `lightImpact` on operators, `mediumImpact` on `=` and Confirm | Same calls; they map to platform haptic constants and honor system settings |
@@ -23,6 +23,14 @@ geometry) never adapts. Behavior and containers do. Adaptive components live in
 
 Haptics are behind `HapticsService` (injected, fakeable) and fire on pointer
 down for keys, so they feel immediate.
+
+### Why a popup on iOS
+
+Flutter's Cupertino page sheet (`showCupertinoSheet`) has no medium detent, so
+a short confirmation would turn into a full-height page. The modal popup is
+sized by its content and carries the same surface, radius and grabber as the
+Android sheet. The scaling background of a native iOS sheet is therefore not
+reproduced.
 
 ## Verification
 

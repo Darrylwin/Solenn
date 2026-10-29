@@ -2,29 +2,33 @@
 
 ## Contract
 
-| ID | Guarantee |
-| --- | --- |
-| S1 | The displayed value never equals the truth once both are formatted for display. |
-| S2 | Output is a pure function of (expression, truth, calculation index, seed). The same canonical expression gives the same displayed value for the whole launch (memoized). |
-| S3 | In phase A the result keeps the sign of the truth and stays within one integer digit of its length (plausible lies). |
-| S4 | Strategies become eligible by phase (table below). Absurd results never appear before calculation 9. |
-| S5 | Every input is handled, including a truth of 0. `NearMissOffset` is applicable to everything and is the guaranteed fallback. |
-| S6 | Never produces `Error`, infinity or a value the formatter cannot display. Errors from the evaluator bypass the engine. |
-| S7 | Randomness comes only from an injected, seeded `Random`. The seed is drawn once per launch in `bootstrap`; tests use fixed seeds. |
-| S8 | A debug-only overlay (guarded by `kDebugMode`, tree-shaken from release) can show truth, strategy and index for developers. |
+| ID  | Guarantee                                                                                                                                                                |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| S1  | The displayed value never equals the truth once both are formatted for display.                                                                                          |
+| S2  | Output is a pure function of (expression, truth, calculation index, seed). The same canonical expression gives the same displayed value for the whole launch (memoized). |
+| S3  | In phase A the result keeps the sign of the truth and stays within one integer digit of its length (plausible lies).                                                     |
+| S4  | Strategies become eligible by phase (table below). Absurd results never appear before calculation 9.                                                                     |
+| S5  | Every input is handled, including a truth of 0. `NearMissOffset` is applicable to everything and is the guaranteed fallback.                                             |
+| S6  | Never produces `Error`, infinity or a value the formatter cannot display. Errors from the evaluator bypass the engine.                                                   |
+| S7  | Randomness comes only from an injected, seeded `Random`. The seed is drawn once per launch in `bootstrap`; tests use fixed seeds.                                        |
+| S8  | A debug-only overlay (guarded by `kDebugMode`, tree-shaken from release) can show truth, strategy and index for developers.                                              |
 
 ## Strategies and phases
 
 Phases are keyed on the launch-wide calculation index: A = 1 to 3, B = 4 to 8,
 C = 9 and above. The A, B and C columns are selection weights.
 
-| Strategy | Behavior | Example (truth to shown) | A | B | C |
-| --- | --- | --- | --- | --- | --- |
-| `NearMissOffset` | Shifts one of the three most significant digits by 1 to 3 | 24,220 to 24,820 | 60 | 30 | 20 |
-| `DigitShuffle` | Swaps two adjacent digits so the number changes | 144 to 414 | 40 | 25 | 20 |
-| `RoundingAbuse` | Rounds to the nearest 10, 100 or 1000 by magnitude | 8.5 to 10 | - | 20 | 20 |
-| `WrongOperator` | Re-evaluates the first binary operation with another operator | 9 - 3 to 12 | - | 25 | 25 |
-| `Absurd` | Picks from a curated list of at least 8 values (42 included) | 30 to 42 | - | - | 15 |
+| Strategy         | Behavior                                                            | Example (truth to shown) | A   | B   | C   |
+| ---------------- | ------------------------------------------------------------------- | ------------------------ | --- | --- | --- |
+| `NearMissOffset` | Shifts one of the three most significant digits by 1 to 3           | 24,220 to 24,520         | 60  | 30  | 20  |
+| `DigitShuffle`   | Swaps two adjacent digits so the number changes                     | 144 to 414               | 40  | 25  | 20  |
+| `RoundingAbuse`  | Rounds to the nearest 10, 100 or 1000 by magnitude                  | 8.5 to 10                | -   | 20  | 20  |
+| `WrongOperator`  | Re-evaluates the root (last) binary operation with another operator | 9 - 3 to 12              | -   | 25  | 25  |
+| `Absurd`         | Picks from a curated list of at least 8 values (42 included)        | 30 to 42                 | -   | -   | 15  |
+
+The examples are illustrative: the rules below decide. A near miss moves a
+digit by whole units of its own place value, so 24,220 may read 24,520, 25,220
+or 21,220, but never 24,820 (that would be six units of the hundreds digit).
 
 Selection is weighted-random among strategies that are eligible, applicable and
 produce a value different from the truth; otherwise the next one is tried,
@@ -61,17 +65,16 @@ phase, when it flips the sign or changes the magnitude by more than one order.
 
 ### Strategies
 
-| Strategy | Works on | Gives up when |
-|---|---|---|
-| `NearMissOffset` | The displayed truth: one of its three leading digits moves by 1 to 3 units | Never |
-| `DigitShuffle` | The significant digits of the displayed truth | Fewer than two different adjacent digits, or zero |
-| `RoundingAbuse` | The displayed truth, rounded to 10, 100 or 1000 by magnitude | The number is already round, or zero |
-| `WrongOperator` | The root operation of the expression, with each other operator | The expression is not a binary operation, or every alternative fails or equals the truth |
-| `AbsurdValue` | `absurd_values.dart`, minus the truth | Never in practice |
+| Strategy         | Works on                                                                   | Gives up when                                                                            |
+| ---------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `NearMissOffset` | The displayed truth: one of its three leading digits moves by 1 to 3 units | Never                                                                                    |
+| `DigitShuffle`   | The significant digits of the displayed truth                              | Fewer than two different adjacent digits, or zero                                        |
+| `RoundingAbuse`  | The displayed truth, rounded to 10, 100 or 1000 by magnitude               | The number is already round, or zero                                                     |
+| `WrongOperator`  | The root operation of the expression, with each other operator             | The expression is not a binary operation, or every alternative fails or equals the truth |
+| `AbsurdValue`    | `absurd_values.dart`, minus the truth                                      | Never in practice                                                                        |
 
-Strategies lie about the *displayed* truth (nine digits), so a lie can never
-hide below what the user can read. The `42` in the contract table is
-illustrative: the rule is the one above, so 24,220 may read 24,520 or 25,220.
+Strategies lie about the _displayed_ truth (nine digits), so a lie can never
+hide below what the user can read.
 
 ### Memo
 
@@ -84,7 +87,7 @@ in memory, like everything else (constraint C3).
 
 In debug builds only, a line at the top-end of the display shows the number of
 the calculation, the strategy that lied and the truth: `#2 · digitShuffle ·
-truth 24,220`. It is visible only while a result is displayed.
+truth 144`. It is visible only while a result is displayed.
 
 The line is produced by `calculatorDebugLabel`, whose `enabled` default is
 `kDebugMode`. As that is a compile-time constant, release builds contain no

@@ -34,18 +34,30 @@ The import rules are in [dependency-rules.md](dependency-rules.md).
 | `CalculatorCubit`   | calculator   | Applies key presses through the pure input reducer. On `=`, evaluates, sabotages, appends to history, increments `committedCount`. |
 | `SubscriptionCubit` | subscription | The paywall state machine. Knows nothing about the calculator.                                                                     |
 
-The two are linked in `app/`: a `BlocListener<CalculatorCubit, CalculatorState>`
-with `listenWhen` on `committedCount` increasing calls
-`SubscriptionCubit.calculationCommitted()`. Features stay decoupled and no event
-bus is needed.
+The two are linked in `app/`, through a hook: `CalculatorPage` listens to its
+own Cubit (`listenWhen` on `committedCount` increasing) and calls its
+`onCalculationCommitted` callback, and `HomeScreen` passes
+`SubscriptionCubit.calculationCommitted` as that callback. Features stay
+decoupled and no event bus is needed. [ADR 0003](../adr/0003-cubit-state-management.md)
+describes a listener in `app/`; the hook has the same effect and keeps the
+calculator's Cubit private to its page.
+
+## Navigation
+
+Navigator 1.0 with a typed `AppRoute` layer ([ADR 0007](../adr/0007-navigator-1-typed-routes.md)).
+Named routes: `/`, `/account` and `/account/legal`. The paywall, the checkout
+sheet and the history sheet are anonymous routes opened by their presenter or
+page, since nothing needs to address them by name. `PaywallPresenter` (in
+`app/`) turns the subscription state into navigation; Cubits never navigate.
 
 ## Composition root
 
-`bootstrap()` builds an immutable `AppDependencies` object (randomness source
-seeded per launch, `HapticsService`, `AppInfo`, `PricingCatalog`,
-`SabotageEngine`). `SolennApp` receives it as a constructor argument and exposes
-services with `RepositoryProvider.value`. Tests construct `SolennApp` with
-fakes. There is no global state to reset between tests.
+`bootstrap()` builds an immutable `AppDependencies` object (`AppLogger`,
+`HapticsService`, `ClipboardService`, `AppInfo`, the `SabotageEngine` with its
+randomness source seeded per launch, `PricingCatalog` and
+`SubscriptionTimings`). `SolennApp` receives it as a constructor argument and
+exposes services with `RepositoryProvider.value`. Tests construct `SolennApp`
+with fakes. There is no global state to reset between tests.
 
 ## Error handling and observability
 
@@ -53,7 +65,7 @@ fakes. There is no global state to reset between tests.
   `PlatformDispatcher.instance.onError`. Both log through a thin `AppLogger`
   over `dart:developer`.
 - Release builds replace `ErrorWidget.builder` with a branded, non-technical
-  fallback. Debug builds keep the red screen.
+  fallback (`SolennErrorFallback`). Debug builds keep the red screen.
 - A `BlocObserver` logs transitions in debug only.
 - No remote crash reporting. Debuggability in release comes from
   `--split-debug-info` symbols archived with each release.
