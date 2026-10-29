@@ -22,6 +22,7 @@ const double _scaleProbeSize = 16;
 /// The card knows nothing about plans or money: callers pass display strings
 /// and the complete spoken description in [semanticLabel]. With large text it
 /// stacks the price under the title instead of squeezing both on one line.
+/// Its selection animation is dropped when the user asked for less motion.
 class SolennPlanCard extends StatelessWidget {
   /// Creates a plan card.
   const SolennPlanCard({
@@ -74,6 +75,7 @@ class SolennPlanCard extends StatelessWidget {
     final spacing = context.spacing;
     final type = context.type;
     final motion = context.motion;
+    final duration = context.adaptiveDuration(motion.fast);
     final radius = BorderRadius.circular(context.radii.planCard);
     final shape = RoundedRectangleBorder(borderRadius: radius);
 
@@ -123,7 +125,7 @@ class SolennPlanCard extends StatelessWidget {
     );
 
     final card = AnimatedContainer(
-      duration: motion.fast,
+      duration: duration,
       curve: motion.standard,
       foregroundDecoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -220,10 +222,11 @@ class _Radio extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final motion = context.motion;
+    final duration = context.adaptiveDuration(motion.fast);
     final dot = selected ? _radioDotSize : 0.0;
 
     return AnimatedContainer(
-      duration: motion.fast,
+      duration: duration,
       curve: motion.standard,
       width: _radioSize,
       height: _radioSize,
@@ -236,7 +239,7 @@ class _Radio extends StatelessWidget {
         ),
       ),
       child: AnimatedContainer(
-        duration: motion.fast,
+        duration: duration,
         curve: motion.standard,
         width: dot,
         height: dot,

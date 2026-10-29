@@ -27,6 +27,7 @@ class CalculatorView extends StatelessWidget {
     this.onAccountPressed,
     this.onResultLongPress,
     this.debugLabel,
+    this.revealKey,
     super.key,
   });
 
@@ -62,6 +63,10 @@ class CalculatorView extends StatelessWidget {
 
   /// Developer line shown over the display. `null` hides it.
   final String? debugLabel;
+
+  /// Identifies the result on display; a new one is revealed with an
+  /// animation. `null` while typing.
+  final Object? revealKey;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +108,7 @@ class CalculatorView extends StatelessWidget {
                       onAccountPressed: onAccountPressed,
                     ),
                     AnimatedSize(
-                      duration: context.motion.base,
+                      duration: context.adaptiveDuration(context.motion.base),
                       curve: context.motion.standard,
                       alignment: Alignment.topCenter,
                       child: banner == null
@@ -129,6 +134,7 @@ class CalculatorView extends StatelessWidget {
                               result: result,
                               caption: caption,
                               debugLabel: debugLabel,
+                              revealKey: revealKey,
                               onLongPress: onResultLongPress,
                             ),
                           ),

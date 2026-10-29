@@ -11,6 +11,7 @@ const double _captionIconSize = 14;
 /// The result shrinks to fit instead of wrapping or truncating. The
 /// expression keeps its tail visible while it grows. A long press on the card
 /// triggers [onLongPress]; screen readers get it as a "copy result" action.
+/// A new result is revealed with a short fade and rise (see [revealKey]).
 class CalculatorDisplay extends StatelessWidget {
   /// Creates the display.
   const CalculatorDisplay({
@@ -18,6 +19,7 @@ class CalculatorDisplay extends StatelessWidget {
     required this.result,
     this.caption,
     this.debugLabel,
+    this.revealKey,
     this.onLongPress,
     super.key,
   });
@@ -33,6 +35,10 @@ class CalculatorDisplay extends StatelessWidget {
 
   /// Developer line shown at the top-end of the card. `null` hides it.
   final String? debugLabel;
+
+  /// Identifies the result on display. A change to a non-null value reveals
+  /// the result with an animation; `null` (typing, an error) shows it at once.
+  final Object? revealKey;
 
   /// Called on a long press of the card. `null` disables the gesture.
   final VoidCallback? onLongPress;
@@ -95,15 +101,18 @@ class CalculatorDisplay extends StatelessWidget {
                         ),
                       ),
                       Flexible(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: Text(
-                            result,
-                            maxLines: 1,
-                            textScaler: textScaler,
-                            style: type.displayResult.copyWith(
-                              color: colors.textPrimary,
+                        child: SolennReveal(
+                          revealKey: revealKey,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: Text(
+                              result,
+                              maxLines: 1,
+                              textScaler: textScaler,
+                              style: type.displayResult.copyWith(
+                                color: colors.textPrimary,
+                              ),
                             ),
                           ),
                         ),

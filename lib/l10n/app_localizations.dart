@@ -585,6 +585,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{plan} · {trial}'**
   String accountPlanDetailTrial(String plan, String trial);
+
+  /// Title of the screen that replaces a widget that failed to build in a release build.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get errorFallbackTitle;
+
+  /// Message of the screen that replaces a widget that failed to build in a release build. It must stay non-technical.
+  ///
+  /// In en, this message translates to:
+  /// **'Please close Solenn and open it again.'**
+  String get errorFallbackMessage;
 }
 
 class _AppLocalizationsDelegate

@@ -112,7 +112,9 @@ class _CalculatorScreenState extends State<_CalculatorScreen> {
     final l10n = context.l10n;
 
     return BlocBuilder<CalculatorCubit, CalculatorState>(
-      buildWhen: (previous, current) => previous.input != current.input,
+      buildWhen: (previous, current) =>
+          previous.input != current.input ||
+          previous.committedCount != current.committedCount,
       builder: (context, state) {
         final input = state.input;
         final display = _formatter.format(
@@ -128,6 +130,11 @@ class _CalculatorScreenState extends State<_CalculatorScreen> {
           headerCenter: widget.headerCenter,
           banner: widget.banner,
           debugLabel: calculatorDebugLabel(state, _formatter),
+          // Each result is revealed once, and only the results: typing and
+          // errors show at once.
+          revealKey: input.phase == InputPhase.evaluated
+              ? state.committedCount
+              : null,
           onKeyPressed: cubit.pressKey,
           // There is nothing worth copying from an error.
           onResultLongPress: input.isError ? null : () => _copy(display.result),
