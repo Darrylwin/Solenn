@@ -149,3 +149,34 @@ mirrors the token tables above.
   for less motion. It is used by animations that only decorate a state change:
   the plan card selection, the radio, and the welcome banner. The press
   feedback of keys stays: it is feedback, not decoration.
+
+## Brand assets
+
+`assets/branding/` holds the source artwork. It is not bundled in the app
+(`pubspec.yaml` only lists fonts and legal texts); the generated outputs are
+committed, and CI does not regenerate them.
+
+The mark is a ring (accent, radius 251, stroke 72 on a 1024 grid) around an
+`S`, the outline of the Manrope Bold glyph, so no font is needed to read the
+SVG files. The ring covers 56% of the canvas: inside the 61% safe zone of an
+Android adaptive icon and the circle of the Android 12 splash screen.
+
+| Source | Used by |
+|---|---|
+| `icon-background.svg` | Android adaptive background (a flat color in the config) |
+| `icon-foreground` | Android adaptive foreground |
+| `icon-monochrome` | Android themed icon |
+| `icon-ios` | iOS default icon, no alpha |
+| `icon-ios-dark` | iOS dark icon, transparent |
+| `icon-ios-tinted` | iOS tinted icon, grayscale on black |
+| `splash-mark` | Launch screens (iOS and Android, 12+ included) |
+
+Regeneration, from the repository root:
+
+```bash
+python tool/branding/render_icons.py          # PNG from SVG (cairosvg, pillow)
+fvm dart run flutter_launcher_icons
+fvm dart run flutter_native_splash:create
+```
+
+The SVG files are the source of truth: change a PNG only through them.
