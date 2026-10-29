@@ -35,6 +35,7 @@ Future<void> pumpScreen(
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: buildSolennTheme().copyWith(platform: platform),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

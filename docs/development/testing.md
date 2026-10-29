@@ -117,3 +117,39 @@ before it is tapped.
 The `Integration` workflow runs them on an Android emulator and on an iOS
 simulator; it needs no change, since it runs every `*_test.dart` file of
 `integration_test/`.
+
+### What is captured
+
+Each golden test file starts with `@Tags(['golden'])` and loads the real fonts
+with `loadAppFonts` (`test/helpers/load_app_fonts.dart`) in `setUpAll`. The
+helper is not installed globally: other tests keep the default test font, whose
+metrics their layout assertions rely on. Images are stored next to the test, in
+a `goldens/` folder, at a device pixel ratio of 1.
+
+| Subject | Captured |
+|---|---|
+| Calculator | Empty, typing, result, selected operator, unlocked (PLUS and banner), error, at 320, 390 and 430 |
+| Paywall | Annual at the three widths; monthly and enterprise at 390 |
+| Checkout sheet | Annual at the three widths on Android; annual on iOS; monthly at 390 |
+| History sheet | Populated at the three widths on Android and at 390 on iOS; empty at 390 on both |
+| Account | Free at the three widths; Plus at 390 on both platforms |
+| Legal page | At the three widths |
+| Components | Keys, plan cards, surfaces (chip, banner, list, buttons), pressed keys on iOS |
+| Error fallback | At 390 |
+
+Sheets are captured on both platforms because they differ (Cupertino popup with
+a grabber, Material bottom sheet with a drag handle). Press feedback is
+captured on iOS only: the Android ripple depends on time.
+
+### Creating or updating baselines
+
+Baselines are valid only when generated on the CI image, so a Windows or macOS
+machine cannot produce them.
+
+1. Push the branch: the `Tests` job fails on the missing images. This is
+   expected the first time.
+2. Run the **Update goldens** workflow on the branch. It commits the images.
+3. Pull the branch and review the images in the PR: a golden diff needs a
+   reviewer to look at them.
+4. Push an empty commit (`git commit --allow-empty -m "ci: rerun checks"`),
+   since a push made with `GITHUB_TOKEN` does not start CI.
