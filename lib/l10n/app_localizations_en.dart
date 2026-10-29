@@ -346,4 +346,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String accountPlanDetailTrial(String plan, String trial) {
     return '$plan · $trial';
   }
+
+  @override
+  String get errorFallbackTitle => 'Something went wrong';
+
+  @override
+  String get errorFallbackMessage => 'Please close Solenn and open it again.';
 }

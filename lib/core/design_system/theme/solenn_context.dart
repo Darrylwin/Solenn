@@ -24,4 +24,11 @@ extension SolennContext on BuildContext {
 
   /// Durations and curves.
   SolennMotion get motion => Theme.of(this).extension<SolennMotion>()!;
+
+  /// [duration], or [Duration.zero] when the user asked for less motion
+  /// (`MediaQuery.disableAnimations`).
+  ///
+  /// Use it for animations that only decorate a state change.
+  Duration adaptiveDuration(Duration duration) =>
+      MediaQuery.disableAnimationsOf(this) ? Duration.zero : duration;
 }

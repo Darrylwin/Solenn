@@ -135,3 +135,17 @@ mirrors the token tables above.
 | Account screen, Legal page layout | M4 |
 | App icon (all variants), splash, brand mark | M5 (placeholder allowed earlier) |
 | Branded error fallback | M5 |
+
+### Reveal and reduced motion
+
+- **`SolennReveal`** plays the result reveal: a 200 ms fade with an 8 px rise.
+  The 200 ms and the 8 px live in the component, not in `SolennMotion`: they
+  belong to this one effect. It plays only when its `revealKey` changes to a
+  non-null value, which the calculator sets to the number of the calculation
+  while a result is displayed. Typing and errors show at once.
+- With `MediaQuery.disableAnimations` the rise is dropped and the fade lasts
+  120 ms.
+- **`context.adaptiveDuration(d)`** returns `d`, or zero when the user asked
+  for less motion. It is used by animations that only decorate a state change:
+  the plan card selection, the radio, and the welcome banner. The press
+  feedback of keys stays: it is feedback, not decoration.

@@ -409,5 +409,13 @@
       "plan": {"type": "String", "example": "Annual"},
       "trial": {"type": "String", "example": "7-day free trial"}
     }
+  },
+  "errorFallbackTitle": "Something went wrong",
+  "@errorFallbackTitle": {
+    "description": "Title of the screen that replaces a widget that failed to build in a release build."
+  },
+  "errorFallbackMessage": "Please close Solenn and open it again.",
+  "@errorFallbackMessage": {
+    "description": "Message of the screen that replaces a widget that failed to build in a release build. It must stay non-technical."
   }
 }

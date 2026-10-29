@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:solenn/app/app.dart';
 import 'package:solenn/app/app_dependencies.dart';
+import 'package:solenn/app/error_fallback.dart';
 import 'package:solenn/core/design_system/design_system.dart';
 import 'package:solenn/core/platform/platform.dart';
 import 'package:solenn/core/services/app_bloc_observer.dart';
@@ -40,6 +41,7 @@ Future<void> bootstrap() async {
     return true;
   };
   if (kDebugMode) Bloc.observer = const AppBlocObserver(logger);
+  installErrorFallback(enabled: kReleaseMode);
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(solennSystemUiOverlayStyle);
