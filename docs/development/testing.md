@@ -95,3 +95,25 @@ specification; adjust the wording after the first run.
 - One iPhone with Dynamic Type at the largest accessibility size.
 - One Android with gesture navigation and one with 3-button navigation.
 - One Android with maximum font scale.
+
+### Running the integration flows
+
+`integration_test/app_flows_test.dart` holds the six required flows, one group
+per flow, in the order above. `integration_test/helpers/flow_driver.dart` holds
+the shared driver: it starts `SolennApp` with `buildTestDependencies`, seeded
+randomness and shortened timings (300 ms before the paywall, 300 ms of
+processing), so a run lasts seconds instead of minutes.
+
+```bash
+fvm flutter devices
+fvm flutter test integration_test -d <device-id>
+```
+
+Real time passes in these tests, unlike in the widget tests that use
+`fakeAsync`: each wait leaves a margin after the delay it waits for. A widget
+that scrolls out of reach (the paywall on a small screen) is brought into view
+before it is tapped.
+
+The `Integration` workflow runs them on an Android emulator and on an iOS
+simulator; it needs no change, since it runs every `*_test.dart` file of
+`integration_test/`.
