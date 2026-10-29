@@ -16,7 +16,8 @@
   - 3999 / 12 = 333.25, rounded half-up to 333;
   - savings = round((5988 - 3999) / 5988) = 33.
 - Widgets never contain price literals.
-- Formatting uses `intl` with locale `en_US` and currency `USD`.
+- Formatting is `formatMoney`, a pure function of the domain that writes US
+  English prices (`$1,234.50`) whatever the device locale (see Implementation).
 
 ## CTA copy
 
@@ -35,19 +36,19 @@ Prices live in `PricingCatalog.standard`
 of cents and a currency code, with integer arithmetic only. No `double` is
 involved, so no rounding error can reach a price.
 
-| Plan | Period | Price | Trial |
-|---|---|---|---|
-| Annual | Yearly | $39.99 | 7 days |
-| Monthly | Monthly | $4.99 | none |
-| Enterprise | Monthly | $149.99 | none |
+| Plan       | Period  | Price   | Trial  |
+| ---------- | ------- | ------- | ------ |
+| Annual     | Yearly  | $39.99  | 7 days |
+| Monthly    | Monthly | $4.99   | none   |
+| Enterprise | Monthly | $149.99 | none   |
 
 Three figures are derived from the prices, never typed in:
 
-| Figure | Rule | Today |
-|---|---|---|
-| Struck-through price | Monthly price x 12 | $59.88 |
-| Monthly equivalent of the annual plan | Annual price / 12, rounded half up | $3.33 |
-| Savings | Annual price below the struck-through price, in whole percent, half up | 33% |
+| Figure                                | Rule                                                                   | Today  |
+| ------------------------------------- | ---------------------------------------------------------------------- | ------ |
+| Struck-through price                  | Monthly price x 12                                                     | $59.88 |
+| Monthly equivalent of the annual plan | Annual price / 12, rounded half up                                     | $3.33  |
+| Savings                               | Annual price below the struck-through price, in whole percent, half up | 33%    |
 
 The catalog refuses an inconsistent set of offers (wrong period for a plan,
 prices in several currencies, an annual plan dearer than twelve months).
