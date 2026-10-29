@@ -12,13 +12,44 @@ Solenn is a satirical mobile app, built as a real product: a calculator with the
 
 Nothing is real: there are no payments, no accounts and no network. The joke lives in the domain rules; the engineering is meant to be taken seriously.
 
-| Calculator                                           | Paywall                                        | Checkout                                             | Plus active                                            |
-| ---------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
-| ![Calculator](docs/design/screens/01-calculator.png) | ![Paywall](docs/design/screens/02-paywall.png) | ![Checkout](docs/design/screens/03-confirmation.png) | ![Plus active](docs/design/screens/04-plus-active.png) |
-
-| History                                        | Account                                        | Terms                                      |
-| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------ |
-| ![History](docs/design/screens/05-history.png) | ![Account](docs/design/screens/06-account.png) | ![Terms](docs/design/screens/07-legal.png) |
+<table>
+  <tr>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/01-calculator.png" width="170" alt="The calculator, showing a wrong result"><br>
+      <sub><b>Calculator</b></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/02-paywall.png" width="170" alt="The paywall with three plans"><br>
+      <sub><b>Paywall</b></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/03-confirmation.png" width="170" alt="The purchase confirmation sheet"><br>
+      <sub><b>Checkout</b></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/04-plus-active.png" width="170" alt="The calculator once unlocked, with the PLUS badge"><br>
+      <sub><b>Plus active</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/05-history.png" width="170" alt="The calculation history sheet"><br>
+      <sub><b>History</b></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/06-account.png" width="170" alt="The account screen"><br>
+      <sub><b>Account</b></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/07-legal.png" width="170" alt="The terms of service"><br>
+      <sub><b>Terms</b></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/design/screens/08-privacy.png" width="170" alt="The terms of service"><br>
+      <sub><b>Privacy</b></sub>
+    </td>
+  </tr>
+</table>
 
 ## How it works
 
@@ -193,4 +224,4 @@ Contributions are welcome. Read [CONTRIBUTING](docs/CONTRIBUTING.md) first: it c
 
 ## License
 
-[MIT](LICENSE) © 2026 DARCODE. The Manrope typeface is licensed under the SIL Open Font License; its text is in `assets/fonts/manrope/OFL.txt` and listed on the in-app licenses page.
+[AGPL-3.0](LICENSE) © 2026 DARCODE. The Manrope typeface is licensed under the SIL Open Font License; its text is in `assets/fonts/manrope/OFL.txt` and listed on the in-app licenses page.
