@@ -14,6 +14,18 @@
   Documentation. `test`, `ci`, `chore` and `build` are hidden. `CHANGELOG.md` is
   generated and never edited by hand.
 
+### Cutting 1.0.0
+
+The first release is 1.0.0, not what the commits would compute (below 1.0.0, a
+feature bumps the patch, so it would be 0.1.1). `release-please-config.json`
+therefore pins `"release-as": "1.0.0"`.
+
+- Merge no release pull request until the release checklist below passes. The
+  pull request release-please keeps open is only a proposal until then.
+- Once the `v1.0.0` release is published, remove `release-as` in a pull request
+  titled `chore(release): drop the release-as pin`. Left in place, it would pin
+  every later release to 1.0.0 again.
+
 ## Pipeline (`release.yml`)
 
 1. On every push to `main`, release-please opens or updates one PR titled
@@ -38,6 +50,18 @@
 Artifact names: `solenn-X.Y.Z-android-<abi>.apk`, `solenn-X.Y.Z-android.aab`,
 `solenn-X.Y.Z-symbols.zip`, `SHA256SUMS`.
 
+## Dry run
+
+The release build can be checked on a development machine before the real one.
+Without `android/key.properties` it falls back to debug signing with a warning,
+which is enough to check what the pipeline checks:
+
+```bash
+fvm flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/symbols
+fvm dart run tool/check_release_manifest.dart
+fvm dart run tool/check_apk_size.dart build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+```
+
 ## Secrets
 
 | Secret                                                                                              | Used by       | Notes                                                                                                                                                  |
@@ -48,9 +72,25 @@ Artifact names: `solenn-X.Y.Z-android-<abi>.apk`, `solenn-X.Y.Z-android.aab`,
 No other secret exists. iOS signing secrets are intentionally absent in 1.0.
 `android/key.properties.example` is the committed template.
 
+### Creating the signing key
+
+The keystore is created once, kept outside the repository (`*.jks` is
+ignored), and backed up: losing it means future releases cannot update an
+installed build.
+
+```bash
+keytool -genkeypair -v -keystore solenn-release.jks -alias solenn \
+  -keyalg RSA -keysize 2048 -validity 10000
+base64 -w0 solenn-release.jks    # on macOS: base64 -i solenn-release.jks
+```
+
+The base64 text is the value of `ANDROID_KEYSTORE_BASE64`; the other three
+secrets are the keystore password, the alias (`solenn`) and the key password.
+
 ## Release checklist
 
 - [ ] `CI Gate` and integration green on the release commit.
+- [ ] Dry run passed: manifest check and size budget (see above).
 - [ ] Profile-mode run on a mid-range Android device and an iPhone: no jank on
       keypad, paywall transition and sheets.
 - [ ] VoiceOver and TalkBack script completed ([testing](testing.md)).
@@ -61,6 +101,14 @@ No other secret exists. iOS signing secrets are intentionally absent in 1.0.
       paywall, each exit path.
 - [ ] Changelog and release notes read by a human.
 - [ ] No placeholder artwork shipping by accident (open tracking issue closed).
+- [ ] The screenshots of the README and of `docs/design/screens/` match the
+      release.
+
+After the release:
+
+- [ ] `release-as` removed from `release-please-config.json`.
+- [ ] Artifacts downloaded, `sha256sum --check SHA256SUMS` passes, and the
+      attestation of one APK verifies.
 
 ## iOS distributable builds
 
@@ -100,7 +148,7 @@ Android:
   fails on any `uses-permission` outside a short allowlist.
 - Release build type: minification and resource shrinking on, Flutter's default
   ProGuard rules, signing from `android/key.properties`. A local release build
-  falls back to debug signing with a visible warning.
+  without it falls back to debug signing with a warning.
 - Edge-to-edge enabled in `MainActivity`; insets handled in Flutter through
   `MediaQuery`. Debug build type uses `applicationIdSuffix .debug`.
 

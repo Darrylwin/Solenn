@@ -45,7 +45,7 @@ Nothing is real: there are no payments, no accounts and no network. The joke liv
       <sub><b>Terms</b></sub>
     </td>
     <td align="center" valign="top">
-      <img src="docs/design/screens/08-privacy.png" width="170" alt="The terms of service"><br>
+      <img src="docs/design/screens/08-privacy.png" width="170" alt="The privacy policy"><br>
       <sub><b>Privacy</b></sub>
     </td>
   </tr>
@@ -84,7 +84,7 @@ Derived figures (the struck-through price, $3.33 per month, 33%) are computed fr
 These are constraints of the project, enforced by tests and CI:
 
 - **No payment.** No payment SDK and no text field in the checkout. Nothing is ever charged.
-- **No network.** The release build declares no permission at all, `INTERNET` included. CI inspects the merged manifest. No analytics, no crash reporting, no remote fonts.
+- **No network.** The release build asks for no permission, `INTERNET` included. CI inspects the merged manifest. No analytics, no crash reporting, no remote fonts.
 - **No persistence.** Nothing survives a cold start. A launch is the lifetime of the process.
 - **Deterministic lies.** The sabotage is a pure function of the expression, its exact result, the number of the calculation and a seed. Tests replay it.
 - **Native comfort.** Same brand on both platforms, platform behavior underneath: transitions, sheets, press feedback, haptics, system bars and text scaling follow the OS.
@@ -182,7 +182,7 @@ There is no `data` layer: the app has no I/O. It will be created the day a featu
 
 ## Quality
 
-- **Tests.** Unit tests for the domain, Cubit tests on simulated time, widget tests under both platform dialects and several text scales, architecture and hygiene tests, and a conformance file of more than 300 key sequences for the calculator engine.
+- **Tests.** Unit tests for the domain, Cubit tests on simulated time, widget tests under both platform dialects and several text scales, golden tests of the screens at three widths, architecture and hygiene tests, integration flows on an emulator and a simulator, and a conformance file of more than 200 key sequences for the calculator engine.
 - **Coverage gates.** At least 85% of lines overall and 95% in `domain/` layers. Thresholds may only be raised.
 - **Accessibility.** Tap target, label and contrast guidelines asserted on the screens; reduced motion and large text honored.
 - **CI.** Formatting, analysis, localization drift, tests, coverage, an Android release build with a manifest check, and an iOS build without signing. A single required check, `CI Gate`.
