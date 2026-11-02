@@ -106,9 +106,3 @@ screenshots must be taken at the same resolution so the frames line up.
 
 The site is static with hourly revalidation, so it suits any Next.js host. On Vercel: import the repository, set *
 *Production Branch** to `site`, and add the variables above.
-
-## Maintenance
-
-- Dependabot reads the configuration of the default branch only. Add an npm stream with `target-branch: site` to
-  `.github/dependabot.yml` on `main`.
-- Replace `app/favicon.ico` with the brand mark once the final artwork exists.
