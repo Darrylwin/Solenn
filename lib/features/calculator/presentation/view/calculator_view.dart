@@ -12,7 +12,8 @@ import 'package:solenn/l10n/l10n.dart';
 ///
 /// A stateless consumer: it renders what it is given and reports key presses.
 /// `headerCenter` and `banner` are slots filled by the `app` layer so that the
-/// calculator never depends on other features.
+/// calculator never depends on other features. The banner is left out when
+/// the screen is too short to hold it.
 class CalculatorView extends StatelessWidget {
   /// Creates the screen.
   const CalculatorView({
@@ -49,7 +50,7 @@ class CalculatorView extends StatelessWidget {
   /// Widget centered in the header row.
   final Widget? headerCenter;
 
-  /// Widget shown between the header and the display.
+  /// Widget shown between the header and the display, when it fits.
   final Widget? banner;
 
   /// Called when the history button is tapped. `null` disables it.
@@ -87,11 +88,19 @@ class CalculatorView extends StatelessWidget {
               constraints.maxWidth,
               spacing.maxContentWidth,
             );
+            final shownBanner =
+                banner != null &&
+                    calculatorBannerFits(
+                      spacing: spacing,
+                      height: constraints.maxHeight,
+                    )
+                ? banner
+                : null;
             final diameter = calculatorKeyDiameter(
               spacing: spacing,
               width: width,
               height: constraints.maxHeight,
-              hasBanner: banner != null,
+              hasBanner: shownBanner != null,
             );
 
             return Align(
@@ -111,11 +120,11 @@ class CalculatorView extends StatelessWidget {
                       duration: context.adaptiveDuration(context.motion.base),
                       curve: context.motion.standard,
                       alignment: Alignment.topCenter,
-                      child: banner == null
+                      child: shownBanner == null
                           ? const SizedBox.shrink()
                           : Padding(
                               padding: EdgeInsets.only(top: spacing.lg),
-                              child: banner,
+                              child: shownBanner,
                             ),
                     ),
                     SizedBox(height: spacing.xl),

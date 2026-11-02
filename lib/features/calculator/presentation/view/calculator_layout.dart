@@ -12,6 +12,35 @@ const double calculatorMaxDisplayHeight = 220;
 /// Vertical space reserved for the banner slot when a banner is shown.
 const double calculatorBannerAllowance = 88;
 
+/// Diameter the keys would have if only the height limited them, before the
+/// minimum touch target is applied. It can be below that minimum.
+double _keyDiameterByHeight({
+  required SolennSpacing spacing,
+  required double height,
+  required bool hasBanner,
+}) {
+  final reserved =
+      spacing.minTouchTarget +
+      spacing.xl +
+      calculatorMinDisplayHeight +
+      spacing.xxl +
+      spacing.md +
+      (hasBanner ? calculatorBannerAllowance : 0);
+  return (height - reserved - 4 * spacing.keyGap) / 5;
+}
+
+/// Whether a banner fits in [height] without shrinking the keys below the
+/// minimum touch target.
+///
+/// On very short screens the banner is skipped: it is decorative and
+/// temporary, while squeezing it in would crush the display.
+bool calculatorBannerFits({
+  required SolennSpacing spacing,
+  required double height,
+}) =>
+    _keyDiameterByHeight(spacing: spacing, height: height, hasBanner: true) >=
+    spacing.minTouchTarget;
+
 /// Diameter of the keypad keys for a content area of [width] x [height].
 ///
 /// Keys are limited by the width (four columns) and by the height left once
@@ -24,15 +53,11 @@ double calculatorKeyDiameter({
   required double height,
   required bool hasBanner,
 }) {
-  final gap = spacing.keyGap;
-  final byWidth = (width - 3 * gap) / 4;
-  final reserved =
-      spacing.minTouchTarget +
-      spacing.xl +
-      calculatorMinDisplayHeight +
-      spacing.xxl +
-      spacing.md +
-      (hasBanner ? calculatorBannerAllowance : 0);
-  final byHeight = (height - reserved - 4 * gap) / 5;
+  final byWidth = (width - 3 * spacing.keyGap) / 4;
+  final byHeight = _keyDiameterByHeight(
+    spacing: spacing,
+    height: height,
+    hasBanner: hasBanner,
+  );
   return math.max(spacing.minTouchTarget, math.min(byWidth, byHeight));
 }
