@@ -42,4 +42,32 @@ void main() {
       );
     });
   });
+
+  group('calculatorBannerFits', () {
+    test('should fit on a tall screen', () {
+      expect(calculatorBannerFits(spacing: spacing, height: 2000), isTrue);
+    });
+
+    test('should not fit on a very short screen', () {
+      expect(calculatorBannerFits(spacing: spacing, height: 100), isFalse);
+    });
+
+    test('should only fit when the keys keep the touch target', () {
+      for (var height = 300.0; height <= 1200; height += 10) {
+        final fits = calculatorBannerFits(spacing: spacing, height: height);
+        final keys = diameter(width: 1000, height: height, hasBanner: true);
+
+        expect(
+          fits,
+          keys > spacing.minTouchTarget ||
+              keys == spacing.minTouchTarget &&
+                  calculatorBannerFits(spacing: spacing, height: height),
+          reason: 'height $height',
+        );
+        if (fits) {
+          expect(keys, greaterThanOrEqualTo(spacing.minTouchTarget));
+        }
+      }
+    });
+  });
 }

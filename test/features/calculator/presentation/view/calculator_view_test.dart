@@ -9,6 +9,11 @@ import 'package:solenn/features/calculator/presentation/widgets/calculator_displ
 import '../../../../helpers/fake_haptics_service.dart';
 import '../../../../helpers/pump_screen.dart';
 
+const Widget _realBanner = SolennBanner(
+  title: 'Welcome to Solenn Plus',
+  message: 'Your plan is active. Calculate without limits.',
+);
+
 Widget _view({
   ValueChanged<CalculatorKey>? onKeyPressed,
   CalculatorKey? selectedOperator,
@@ -56,6 +61,22 @@ void main() {
 
       expect(find.text('PLUS'), findsOneWidget);
       expect(find.text('Welcome'), findsOneWidget);
+    });
+
+    testWidgets('should leave the banner out on a very short screen', (
+      tester,
+    ) async {
+      await pumpScreen(
+        tester,
+        _view(
+          headerCenter: const Text('PLUS'),
+          banner: const SizedBox(height: 72, child: Text('Welcome')),
+        ),
+        size: const Size(320, 568),
+      );
+
+      expect(find.text('PLUS'), findsOneWidget);
+      expect(find.text('Welcome'), findsNothing);
     });
 
     testWidgets('should render all 19 keys', (tester) async {
@@ -152,6 +173,24 @@ void main() {
 
           expect(tester.takeException(), isNull);
         });
+
+        testWidgets(
+          'should not overflow with the real banner at $size on $platform',
+          (tester) async {
+            await pumpScreen(
+              tester,
+              _view(
+                headerCenter: const SolennChip(label: 'PLUS'),
+                banner: _realBanner,
+              ),
+              platform: platform,
+              size: size,
+            );
+            await tester.pumpAndSettle();
+
+            expect(tester.takeException(), isNull);
+          },
+        );
       }
     }
 
