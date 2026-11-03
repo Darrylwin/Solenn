@@ -12,6 +12,8 @@ Solenn is a satirical mobile app, built as a real product: a calculator with the
 
 Nothing is real: there are no payments, no accounts and no network. The joke lives in the domain rules; the engineering is meant to be taken seriously.
 
+https://github.com/user-attachments/assets/39478b8a-727e-4e5f-8e1a-80929f7cf69c
+
 <table>
   <tr>
     <td align="center" valign="top">
